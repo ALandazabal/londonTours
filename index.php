@@ -150,19 +150,19 @@
 						<span class="login100-form-title">Contact</span>
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							<div class="wrap-input100 validate-input" >
-								<input class="input100" type="text" name="name" required="this field is required" placeholder="Name">
+								<input class="input100" type="text" id="nameMsg" name="nameMsg" required="this field is required" placeholder="Name">
 								<span class="focus-input100"></span>
 							</div>
 							<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-								<input class="input100" type="email" name="email" required="this field is required" placeholder="E-mail">
+								<input class="input100" type="email" id="emailMsg" name="emailMsg" required="this field is required" placeholder="E-mail">
 								<span class="focus-input100" data-placeholder=""></span>
 							</div>
 						</div>
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							<textarea name="message" required="this field can't be empty" class="text-area-contact"></textarea>
+							<textarea id="textMsg" name="textMsg" required="this field can't be empty" class="text-area-contact"></textarea>
 						</div>
 						<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center submit-contact">
-							<input type="submit" name="" value="Send" class="btn btn-signup">
+							<button type="button" class="btn btn-signup" onclick="ctryAdd()">Send!</button>
 						</div>
 					</form>
 				</div>
@@ -219,6 +219,7 @@
 
 		<!-- JavaScript -->
 		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/ajax.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
  		
 	</body>

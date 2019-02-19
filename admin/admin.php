@@ -62,7 +62,7 @@
                             </li>
                             <li><a href="bookings.php"><i class="notika-icon notika-mail"></i>Bookings</a>
                             </li>
-                            <li><a href="commentary.php"><i class="notika-icon notika-mail"></i>Commentaries</a>
+                            <li><a href="commentaries.php"><i class="notika-icon notika-mail"></i>Commentaries</a>
                             </li>
                         </ul>
                         <!-- <div class="tab-content custom-menu-content">

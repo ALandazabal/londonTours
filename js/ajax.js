@@ -198,3 +198,63 @@ function bookDel(idBook){
     });
 
 }
+
+//Commentary
+function ctryAdd(){
+
+    var form_data = new FormData(); 
+    var nameMsg = $('#nameMsg').val();
+    var emailMsg = $('#emailMsg').val(); 
+    var textMsg = $('#textMsg').val(); 
+
+    form_data.append("nameMsg", nameMsg);    
+    form_data.append("emailMsg", emailMsg);
+    form_data.append("textMsg", textMsg);
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: 'php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {               
+        },
+        success: function(msg) {
+            if(msg == 'ok'){
+                /*$("#data-table-basic").load(" #data-table-basic");
+                $('.bookEditModal').modal('toggle');*/
+            }else{
+                console.log('Error Create Commentary: ' +msg);
+            }
+                
+        }
+    });
+}
+
+
+function ctryDel(idCtry){
+
+    var form_data = new FormData();    
+    form_data.append("idCtryD", idCtry);    
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: '../php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {              
+        },
+       success: function(msg) {
+            if(msg == 'ok'){
+                $("#data-table-basic").load(" #data-table-basic");
+            }else{
+                console.log('Error Delete Commentary: ' +msg);
+            }
+                
+        }
+    });
+
+}

@@ -91,6 +91,35 @@ if($_POST){
 	      echo 'nok';
 	    }
 	}
+
+	//Commentary
+	if(isset($_POST["nameMsg"]) && isset($_POST["emailMsg"]) && isset($_POST["textMsg"])){
+    
+	    $class = new classFunction();
+
+	    $nameMsg = $_POST["nameMsg"];
+	    $emailMsg = $_POST["emailMsg"];    
+	    $textMsg = $_POST["textMsg"];
+
+	    $bool = $class->ctryAdd($nameMsg, $emailMsg, $textMsg);
+	    
+	    if($bool){
+	      echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
+	
+	if(isset($_POST["idCtryD"])){
+    
+	    $class = new classFunction();
+	    $idCtryD = $_POST["idCtryD"];
+	    if($class->ctryDel($idCtryD)){
+	      echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
 }
 
 ?>

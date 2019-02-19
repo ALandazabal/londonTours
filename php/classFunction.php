@@ -100,6 +100,49 @@ class ClassFunction
 
         return false;
     }
+
+    //Commentaries
+    function ctryAdd($nameMsg, $emailMsg, $textMsg){
+
+        include('connection.php');
+        $connection = connect();
+
+        $query2 = "SELECT COUNT(*) total FROM t_comentary";
+        $result2 = mysqli_query( $connection, $query2 ) or die("Something went wrong in the query to the database");
+        $lastId = (array)$result2->fetch_row();
+        $id = $lastId[0];
+        if($id == ''){
+            $id = 0;
+        }
+        $id++;
+       
+        $sql1 = "INSERT INTO t_comentary VALUES('$id', current_date, '$nameMsg','$emailMsg','$textMsg')";
+        $rc1 = mysqli_query($connection, $sql1);
+        disconnect($connection);
+        if($rc1){
+            return true;
+        }
+        
+        return false;
+    }
+
+    function ctryDel($idCtryD){
+
+    	include('connection.php');
+    	$connection = connect();
+        
+        $sqlca = "DELETE FROM t_comentary WHERE id = '$idCtryD'";
+        $rcca = mysqli_query($connection, $sqlca);
+
+        disconnect($connection);
+
+        if($rcca){
+
+            return true; 
+        }
+
+        return false;
+    }
 }
 
 ?>
