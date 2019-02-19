@@ -4,6 +4,15 @@
 	$connection = connect();
 	$query = "SELECT * FROM t_user_tour";
 	$result = mysqli_query($connection, $query);
+
+	$objBookEdit = null;
+	if(isset($_COOKIE['idBook'])){
+	    $idBook = $_COOKIE['idBook'];
+	    $sqledit = "SELECT tut.*, tu.name as user, tt.name as tour FROM t_user_tour as tut JOIN t_user as tu ON tut.fk_user = tu.id JOIN t_tour as tt ON tut.fk_tour = tt.id WHERE tut.id = '$idBook'";
+	    $rcedit = mysqli_query($connection, $sqledit);
+	    $objBookEdit = $rcedit->fetch_array();
+	}
+
 	disconnect($connection);
  ?>
 <!DOCTYPE html>
@@ -103,13 +112,13 @@
                                 <thead>
                                     <tr>
                                         <th>id</th>
-                                        <th>data</th>
+                                        <th>date</th>
                                         <th>Tickets Qty</th>
                                         <th>User</th>
                                         <th>Tour</th>
                                         <th>State</th>
-                                        <th>Cancel Booking</th>
-                                        <th>Change Tickets</th>    
+                                        <th>Edit Booking</th>    
+                                        <th>Delete Booking</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,23 +127,31 @@
 					        				$connection = connect();
 
 					        				while ( $column = mysqli_fetch_array($result)) {
-					        					$query = "SELECT * FROM t_user_tour";
+					        					$id = $column['fk_user'];
+					        					$query = "SELECT name FROM t_user WHERE id = '$id'";
+					        					$result2 = mysqli_query($connection,$query) or die("error on database");
+					        					$user = $result2->fetch_array();
+
+					        					$id = $column['fk_tour'];
+					        					$query = "SELECT name FROM t_tour WHERE id = '$id'";
 					        					$result2 = mysqli_query($connection,$query) or die("error on database");
 					        					$tour = $result2->fetch_array();
+
 					        					$retVal = ($column['state']==1) ? "active" : "cancelled";
 					        					echo "<tr>";
 					        					echo "<td>".$column['id']."</td>";
 					        					echo "<td>".$column['date']."</td>";
 					        					echo "<td>".$column['nTickets']."</td>";
-					        					echo "<td>".$column['fk_user']."</td>";
-					        					echo "<td>".$column['fk_tour']."</td>";
+					        					echo "<td>".$user['name']."</td>";
+					        					echo "<td>".$tour['name']."</td>";
 					        					echo "<td>".$retVal."</td>";
 					        					if ($retVal == "active") {
-					        						echo "<td> <a href='../php/validate-user-edit.php?tour_id=".$column['id']."' class='btn'>Cancel</a></td>";
-					        						echo "<td><a href='#' class='btn'  data-toggle='modal' data-target='#myModal'>Edit Tickets</a></td>";
+					        						$on = 'return confirm("Are you sure?") && bookDel('.$column['id'].')';
+					        						echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".bookEditModal" onclick="bookEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
+								                	echo "<td><a class='btn' title='Delete' onclick= '".$on."'><i class='glyphicon glyphicon-trash'></i></a></td>";
 					        					}else{
-					        						echo "<td><a href='#' class='btn disabled'>Cancel</a></td>";
-					        						echo "<td><a href='#' class='btn disabled'>Edit Tickets</a></td>";
+					        						echo "<td><a href='#' class='btn disabled'><i class='glyphicon glyphicon-edit'></i></a></td>";
+					        						echo "<td><a href='#' class='btn disabled'><i class='glyphicon glyphicon-trash'></i></a></td>";
 					        					}
 					        					echo "</tr>";
 					        					
@@ -149,13 +166,13 @@
                                 <tfoot>
                                     <tr>
                                         <th>id</th>
-                                        <th>data</th>
+                                        <th>date</th>
                                         <th>Tickets Qty</th>
                                         <th>User</th>
                                         <th>Tour</th>
                                         <th>State</th>
-                                        <th>Cancel Booking</th>
-                                        <th>Change Tickets</th> 
+                                        <th>Edit Booking</th>    
+                                        <th>Delete Booking</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -167,22 +184,44 @@
     </div>
     <!-- Data Table area End-->
 
-    <!-- Modal -->
-		<div id="myModal" class="modal fade" role="dialog">
+    <!--modal edit booking-->
+	<div id="myModal" class="modal fade bookEditModal" role="dialog">
 		  <div class="modal-dialog">
 
 		    <!-- Modal content-->
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <!-- <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Tickets</h4>
-		      </div>
-		      <form action="../php/validate-booking.php" method="post" accept-charset="utf-8">
-			      <div class="modal-body">
-			      	<input type="number" name="tickets" value="1" placeholder="Tickets" class="inputNumber">
+		        <h4 class="modal-title">Edit User: # <?php echo $objBookEdit['id']; ?></h4>
+		      </div> -->
+		      <form id="bookEditModal" action="save.php" method="post" accept-charset="utf-8">
+		      	<div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">Edit Booking: # <?php echo $objBookEdit['id']; ?></h4>
 			      </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Date</label>
+			      	<input type="text" id="date" name="date" value="<?php echo $objBookEdit['date']; ?>" placeholder="Date" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Tickets</label>
+			      	<input type="text" id="tickets" name="tickets" value="<?php echo $objBookEdit['nTickets']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">User</label>
+			      	<input type="text" id="user" name="user" value="<?php echo $objBookEdit['user']; ?>" placeholder="User" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Tour</label>
+			      	<input type="text" id="tour" name="tour" value="<?php echo $objBookEdit['tour']; ?>" placeholder="Tour" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">State</label>
+			      	<input type="text" id="state" name="state" value="<?php echo $objBookEdit['state']; ?>" placeholder="State" class="form-control" >
+			    </div>
+			    
 			      <div class="modal-footer">
-			        <input type="submit" class="btn btn-default" value="Book!" required="At least One"></input>
+			        <button type="button" class="btn btn-default" onclick="bookUpdt(<?php echo $objBookEdit['id']; ?>)">Update!</button>
 			      </div>
 		      </form>
 		    </div>
@@ -203,6 +242,7 @@
 		<!-- JavaScript -->
 		<script type="text/javascript" src="../js/main.js"></script>
 		<script type="text/javascript" src="../js/login.js"></script>
+		<script type="text/javascript" src="../js/ajax.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	</body>
 </html>

@@ -50,6 +50,47 @@ if($_POST){
 	      echo 'nok';
 	    }
 	}
+
+	//Bookings
+	if(isset($_POST["idBook"])) {
+
+	    $class = new classFunction();
+	    $idBook = $_POST["idBook"];
+
+	    if($class->bookEdit($idBook)){
+	      //echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
+
+	if(isset($_POST["tickets"]) && isset($_POST["state"]) && isset($_POST["idBookU"])){
+    
+	    $class = new classFunction();
+
+	    $tickets = $_POST["tickets"];
+	    $state = $_POST["state"];    
+	    $idBookU = $_POST["idBookU"];
+
+	    $bool = $class->bookUpdt($tickets, $state, $idBookU);
+	    
+	    if($bool){
+	      echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
+
+	if(isset($_POST["idBookD"])){
+    
+	    $class = new classFunction();
+	    $idBookD = $_POST["idBookD"];
+	    if($class->bookDel($idBookD)){
+	      echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
 }
 
 ?>

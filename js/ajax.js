@@ -104,3 +104,97 @@ function userDel(idUser){
     });
 
 }
+
+//Bookings
+function bookEdit(idBook){
+    var form_data = new FormData();
+
+    form_data.append("idBook", idBook);
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: '../php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {
+            
+        },
+        success: function(msg) {
+            if(msg != 'nok'){
+                $("#bookEditModal").load(" #bookEditModal");
+            }else{
+                console.log('Error Edit Booking: ' +msg);
+            }
+                
+        },
+        error: function(jqXHR,error, errorThrown) {  
+           if(jqXHR.status && jqXHR.status==400){
+                console.log(jqXHR); 
+           }else{
+               console.log("Something went wrong");
+            }
+        }
+
+    });
+
+}
+
+function bookUpdt(idBook){
+
+    var form_data = new FormData(); 
+    var tickets = $('#tickets').val();
+    var state = $('#state').val(); 
+
+    form_data.append("tickets", tickets);    
+    form_data.append("state", state);
+    form_data.append("idBookU", idBook);
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: '../php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {               
+        },
+        success: function(msg) {
+            if(msg == 'ok'){
+                $("#data-table-basic").load(" #data-table-basic");
+                $('.bookEditModal').modal('toggle');
+            }else{
+                //$('.msgChangePass').html('<div class="alert alert-danger alert-dismissable col-md-10 col-md-offset-1 "><button type="button" class="close" data-dismiss="alert"><strong>&times;</strong></button><strong>¡Error!</strong> Ocurrio un problema al guardar.</div>');
+                console.log('Error Update Booking: ' +msg);
+            }
+                
+        }
+    });
+}
+
+function bookDel(idBook){
+
+    var form_data = new FormData();    
+    form_data.append("idBookD", idBook);    
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: '../php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {              
+        },
+       success: function(msg) {
+            if(msg == 'ok'){
+                $("#data-table-basic").load(" #data-table-basic");
+            }else{
+                console.log('Error Delete Booking: ' +msg);
+            }
+                
+        }
+    });
+
+}

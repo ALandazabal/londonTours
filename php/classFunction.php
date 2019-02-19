@@ -57,6 +57,49 @@ class ClassFunction
 
         return false;
     }
+
+    //Bookings
+    function bookEdit($idBook){
+
+        setcookie("idBook",$idBook,time()+(86400),"/");       
+        
+        return true;
+    }
+
+    function bookUpdt($tickets, $state, $idBookU){
+    	include('connection.php');
+    	$connection = connect();
+
+       $sql = "UPDATE t_user_tour SET nTickets = '$tickets', state = '$state' WHERE id = '$idBookU'";
+       
+       	$rc = mysqli_query($connection, $sql);
+
+        disconnect($connection);
+        if($rc){
+            return true;
+        }
+
+        return false;
+        
+    }
+
+    function bookDel($idBookD){
+
+    	include('connection.php');
+    	$connection = connect();
+        
+        $sqlca = "DELETE FROM t_user_tour WHERE id = '$idBookD'";
+        $rcca = mysqli_query($connection, $sqlca);
+
+        disconnect($connection);
+
+        if($rcca){
+
+            return true; 
+        }
+
+        return false;
+    }
 }
 
 ?>
