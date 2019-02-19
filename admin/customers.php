@@ -4,6 +4,15 @@
 	$connection = connect();
 	$query = "SELECT * FROM t_user";
 	$result = mysqli_query($connection, $query);
+
+	$objUserEdit = null;
+	if(isset($_COOKIE['idUser'])){
+	    $idUser = $_COOKIE['idUser'];
+	    $sqledit = "SELECT * FROM t_user WHERE id = '$idUser'";
+	    $rcedit = mysqli_query($connection, $sqledit);
+	    $objUserEdit = $rcedit->fetch_array();
+	}
+
 	disconnect($connection);
  ?>
 <!DOCTYPE html>
@@ -56,12 +65,14 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                            <li><a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i>New Booking</a>
+                            <li class="active"><a href="customers.php"><i class="notika-icon notika-house"></i>Customers</a>
                             </li>
-                            <li class="active"><a data-toggle="tab" href="#mailbox"><i class="notika-icon notika-mail"></i> My Bookings</a>
+                            <li><a href="bookings.php"><i class="notika-icon notika-mail"></i>Bookings</a>
+                            </li>
+                            <li><a href="commentary.php"><i class="notika-icon notika-mail"></i>Commentaries</a>
                             </li>
                         </ul>
-                        <div class="tab-content custom-menu-content">
+                        <!-- <div class="tab-content custom-menu-content">
                             <div id="Home" class="tab-pane  notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
                                     <li><a href="user.php">Do it</a>
@@ -76,7 +87,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -92,23 +103,20 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="data-table-list">
-                        <div class="basic-tb-hd">
+                        <!-- <div class="basic-tb-hd">
                             <p>It's just that simple. Turn your simple table into a sophisticated data table and offer your users a nice experience and great features without any effort.</p>
-                        </div>
+                        </div> -->
                         <div class="table-responsive">
-                            <h2>Basic Example</h2>
+                            <h2>Users</h2>
                             <table id="data-table-basic" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>E-mail</th>
-                                        <th>Address</th>
-                                        <th>Phone</th>
                                         <th>Name</th>
-                                        <th>City</th> 
-                                        <th>Postcode</th>
                                         <th>Type</th>   
-                                        <th>Password</th> 
+                                        <th>Edit User</th>
+                                        <th>Delete User</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -117,20 +125,18 @@
 					        				$connection = connect();
 
 					        				while ( $column = mysqli_fetch_array($result)) {
-					        					$query = "SELECT * FROM t_user_tour";
+					        					/*$query = "SELECT * FROM t_user_tour";
 					        					$result2 = mysqli_query($connection,$query) or die("error on database");
-					        					$tour = $result2->fetch_array();
+					        					$tour = $result2->fetch_array();*/
 					        					//$retVal = ($column['state']==1) ? "active" : "cancelled";
 					        					echo "<tr>";
 					        					echo "<td>".$column['id']."</td>";
 					        					echo "<td>".$column['email']."</td>";
-					        					echo "<td>".$column['address']."</td>";
-					        					echo "<td>".$column['phone']."</td>";
 					        					echo "<td>".$column['name']."</td>";
-					        					echo "<td>".$column['city']."</td>";
-					        					echo "<td>".$column['postcode']."</td>";
 					        					echo "<td>".$column['fk_user_type']."</td>";
-					        					echo "<td>".$column['password']."</td>";
+					        					$on = 'return confirm("Are you sure?") && userDel('.$column['id'].')';
+								                echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".userEditModal" onclick="userEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
+								                echo "<td><a class='btn' title='Delete' onclick= '".$on."'><i class='glyphicon glyphicon-trash'></i></a></td>";
 					        					echo "</tr>";
 					        					
 
@@ -145,13 +151,10 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>E-mail</th>
-                                        <th>Address</th>
-                                        <th>Phone</th>
                                         <th>Name</th>
-                                        <th>City</th> 
-                                        <th>Postcode</th>
                                         <th>Type</th>   
-                                        <th>Password</th> 
+                                        <th>Edit User</th>
+                                        <th>Delete User</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -162,6 +165,61 @@
         </div>
     </div>
     <!-- Data Table area End-->
+
+    <!--modal edit user-->
+	<div id="myModal" class="modal fade userEditModal" role="dialog">
+		  <div class="modal-dialog">
+
+		    <!-- Modal content-->
+		    <div class="modal-content">
+		      <!-- <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title">Edit User: # <?php echo $objUserEdit['id']; ?></h4>
+		      </div> -->
+		      <form id="userEditModal" action="save.php" method="post" accept-charset="utf-8">
+		      	<div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">Edit User: # <?php echo $objUserEdit['id']; ?></h4>
+			      </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">E-mail</label>
+			      	<input type="text" id="email" name="email" value="<?php echo $objUserEdit['email']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Address</label>
+			      	<input type="text" id="address" name="address" value="<?php echo $objUserEdit['address']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Phone</label>
+			      	<input type="text" id="phone" name="phone" value="<?php echo $objUserEdit['phone']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Name</label>
+			      	<input type="text" id="name" name="name" value="<?php echo $objUserEdit['name']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">City</label>
+			      	<input type="text" id="city" name="city" value="<?php echo $objUserEdit['city']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Postcode</label>
+			      	<input type="text" id="postcode" name="postcode" value="<?php echo $objUserEdit['postcode']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			      <div class="modal-body">
+			      	<label for="mcNamelgm">Password</label>
+			      	<input type="password" id="password" name="password" placeholder="********" class="form-control" >
+			      	<input type="hidden" id="passwordC" name="passwordC" value="<?php echo $objUserEdit['password']; ?>" placeholder="Tickets" class="form-control" >
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" onclick="userUpdt(<?php echo $objUserEdit['id']; ?>)">Update!</button>
+			      </div>
+		      </form>
+		    </div>
+
+		  </div>
+		</div>
+
+
 		<!-- jQuery -->
 		<!-- <script src="//code.jquery.com/jquery.js"></script> -->
 		<script src="../js/jquery-3.3.1.min.js"></script>
@@ -174,6 +232,7 @@
 		<!-- JavaScript -->
 		<script type="text/javascript" src="../js/main.js"></script>
 		<script type="text/javascript" src="../js/login.js"></script>
+		<script type="text/javascript" src="../js/ajax.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	</body>
 </html>

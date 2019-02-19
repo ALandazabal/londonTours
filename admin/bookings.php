@@ -56,12 +56,14 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                            <li><a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i>New Booking</a>
+                            <li><a href="customers.php"><i class="notika-icon notika-house"></i>Customers</a>
                             </li>
-                            <li class="active"><a data-toggle="tab" href="#mailbox"><i class="notika-icon notika-mail"></i> My Bookings</a>
+                            <li class="active"><a href="bookings.php"><i class="notika-icon notika-mail"></i>Bookings</a>
+                            </li>
+                            <li><a href="commentary.php"><i class="notika-icon notika-mail"></i>Commentaries</a>
                             </li>
                         </ul>
-                        <div class="tab-content custom-menu-content">
+                        <!-- <div class="tab-content custom-menu-content">
                             <div id="Home" class="tab-pane  notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
                                     <li><a href="user.php">Do it</a>
@@ -76,7 +78,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -92,11 +94,11 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="data-table-list">
-                        <div class="basic-tb-hd">
+                        <!-- <div class="basic-tb-hd">
                             <p>It's just that simple. Turn your simple table into a sophisticated data table and offer your users a nice experience and great features without any effort.</p>
-                        </div>
+                        </div> -->
                         <div class="table-responsive">
-                            <h2>Basic Example</h2>
+                            <h2>Bookings</h2>
                             <table id="data-table-basic" class="table table-striped">
                                 <thead>
                                     <tr>

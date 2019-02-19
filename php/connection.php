@@ -3,7 +3,7 @@
 		$user = "root";
 		$pass = "";  // en mi caso tengo contraseña pero en casa caso introducidla aquí.
 		$server = "localhost";
-		$database = "mysql";
+		$database = "dbtours";
 		$connection = mysqli_connect( $server, $user, $pass,$database ) or die ("Unable to connect to the Database server");
 		mysqli_set_charset($connection,"utf8");
 		return $connection;

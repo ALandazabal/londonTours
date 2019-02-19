@@ -58,12 +58,14 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                            <li class="active"><a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i>Customers</a>
+                            <li><a href="customers.php"><i class="notika-icon notika-house"></i>Customers</a>
                             </li>
-                            <li><a data-toggle="tab" href="#mailbox"><i class="notika-icon notika-mail"></i>Bookings</a>
+                            <li><a href="bookings.php"><i class="notika-icon notika-mail"></i>Bookings</a>
+                            </li>
+                            <li><a href="commentary.php"><i class="notika-icon notika-mail"></i>Commentaries</a>
                             </li>
                         </ul>
-                        <div class="tab-content custom-menu-content">
+                        <!-- <div class="tab-content custom-menu-content">
                             <div id="Home" class="tab-pane in active notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
                                     <li><a href="customers.php">Do it</a>
@@ -78,7 +80,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
