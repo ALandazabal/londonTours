@@ -2,16 +2,17 @@
 	include('../php/connection.php');
 	session_start();
 	$connection = connect();
-	$query = "SELECT * FROM t_user_tour where fk_user =".$_SESSION['currentuser'];
+	$query = "SELECT * FROM t_user where id =".$_SESSION['currentuser'];
 	$result = mysqli_query($connection, $query);
+	$objUserEdit = $result->fetch_array();
 
-	$objBookEdit = null;
+	/*$objBookEdit = null;
 	if(isset($_COOKIE['idBook'])){
 	    $idBook = $_COOKIE['idBook'];
 	    $sqledit = "SELECT tut.*, tu.name as user, tt.name as tour FROM t_user_tour as tut JOIN t_user as tu ON tut.fk_user = tu.id JOIN t_tour as tt ON tut.fk_tour = tt.id WHERE tut.id = '$idBook'";
 	    $rcedit = mysqli_query($connection, $sqledit);
 	    $objBookEdit = $rcedit->fetch_array();
-	}
+	}*/
 
 	disconnect($connection);
  ?>
@@ -67,9 +68,9 @@
                         <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
                             <li><a href="user.php"><i class="notika-icon notika-house"></i>Tours</a>
                             </li>
-                            <li class="active"><a href="mybookings.php"><i class="notika-icon notika-mail"></i> My Bookings</a>
+                            <li><a href="mybookings.php"><i class="notika-icon notika-mail"></i> My Bookings</a>
                             </li>
-                            <li><a href="profile.php"><i class="notika-icon notika-mail"></i> My Profile</a>
+                            <li class="active"><a href="profile.php"><i class="notika-icon notika-mail"></i> My Profile</a>
                             </li>
                         </ul>
                         <!-- <div class="tab-content custom-menu-content">
@@ -102,69 +103,43 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="data-table-list">
-                        <!-- <div class="basic-tb-hd">
-                            <p>It's just that simple. Turn your simple table into a sophisticated data table and offer your users a nice experience and great features without any effort.</p>
-                        </div> -->
-                        <div class="table-responsive">
-                            <h2>My Bookings!</h2>
-                            <table id="data-table-basic" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Tour Name</th>
-                                        <th>Reservation Date</th>    
-                                        <th>Price Tour</th>
-                                        <th>Tour State</th>
-                                        <th>Edit Booking</th>
-                                        <th>Cancel Booking</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                	<?php 
-					        			if($result){
-					        				$connection = connect();
+                    <h2>Edit Profile: # <?php echo $objUserEdit['id']; ?></h2>
 
-					        				while ( $column = mysqli_fetch_array($result)) {
-					        					$query = "SELECT * FROM t_tour where id=".$column['fk_tour'];
-					        					$result2 = mysqli_query($connection,$query) or die("error on database");
-					        					$tour = $result2->fetch_array();
-					        					$retVal = ($column['state']==1) ? "active" : "cancelled";
-					        					echo "<tr>";
-					        					echo "<td>".$tour['name']."</td>";
-					        					echo "<td>".$column['date']."</td>";
-					        					/*echo "<td>".$tour['date']."</td>";*/
-					        					echo "<td>".$tour['price']."</td>";
-					        					echo "<td>".$retVal."</td>";
-					        					/*echo "<td>".$column['nTickets']."</td>";*/
-					        					if ($retVal == "active") {
-					        						$on = 'return confirm("Are you sure?") && bookCancel('.$column['id'].')';
-					        						echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".bookEditModal" onclick="bookEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
-								                	echo "<td><a class='btn' title='Cancel' onclick= '".$on."'><i class='glyphicon glyphicon-remove'></i></a></td>";
-					        					}else{
-					        						echo "<td><a href='#' class='btn disabled'><i class='glyphicon glyphicon-edit'></i></a></td>";
-					        						echo "<td><a href='#' class='btn disabled'><i class='glyphicon glyphicon-remove'></i></a></td>";
-					        					}
-					        					echo "</tr>";
-					        				}
-					        				disconnect($connection);	
-					        			}else{
-					        				echo "<p>Ups! there isn't Booking</p>";
-					        			}
-					        		 ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>Tour Name</th>
-                                        <th>Reservation Date</th>    
-                                        <th>Price Tour</th>
-                                        <th>Tour State</th>
-                                        <th>Edit Booking</th>
-                                        <th>Cancel Booking</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
+                    <form id="userEditModal" action="save.php" method="post" accept-charset="utf-8">
+					    <div class="modal-body">
+					      	<label for="mcNamelgm">E-mail</label>
+					      	<input type="text" id="email" name="email" value="<?php echo $objUserEdit['email']; ?>" placeholder="Tickets" class="form-control" >
+					    </div>
+					    <div class="modal-body">
+					      	<label for="mcNamelgm">Address</label>
+					      	<input type="text" id="address" name="address" value="<?php echo $objUserEdit['address']; ?>" placeholder="Tickets" class="form-control" >
+					    </div>
+					    <div class="modal-body">
+					      	<label for="mcNamelgm">Phone</label>
+					      	<input type="text" id="phone" name="phone" value="<?php echo $objUserEdit['phone']; ?>" placeholder="Tickets" class="form-control" >
+					    </div>
+					    <div class="modal-body">
+					      	<label for="mcNamelgm">Name</label>
+					      	<input type="text" id="name" name="name" value="<?php echo $objUserEdit['name']; ?>" placeholder="Tickets" class="form-control" >
+					    </div>
+					    <div class="modal-body">
+					      	<label for="mcNamelgm">City</label>
+					      	<input type="text" id="city" name="city" value="<?php echo $objUserEdit['city']; ?>" placeholder="Tickets" class="form-control" >
+					    </div>
+					    <div class="modal-body">
+					      	<label for="mcNamelgm">Postcode</label>
+					      	<input type="text" id="postcode" name="postcode" value="<?php echo $objUserEdit['postcode']; ?>" placeholder="Tickets" class="form-control" >
+					    </div>
+					      <div class="modal-body">
+					      	<label for="mcNamelgm">Password</label>
+					      	<input type="password" id="password" name="password" placeholder="********" class="form-control" >
+					      	<input type="hidden" id="passwordC" name="passwordC" value="<?php echo $objUserEdit['password']; ?>" placeholder="Tickets" class="form-control" >
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" onclick="userUpdt(<?php echo $objUserEdit['id']; ?>)">Update!</button>
+					      </div>
+				    </form>
+                    
                 </div>
             </div>
         </div>
