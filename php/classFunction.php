@@ -83,6 +83,23 @@ class ClassFunction
         
     }
 
+    function bookCancel($idBookC){
+        include('connection.php');
+        $connection = connect();
+
+       $sql = "UPDATE t_user_tour SET state = 0 WHERE id = '$idBookC'";
+       
+        $rc = mysqli_query($connection, $sql);
+
+        disconnect($connection);
+        if($rc){
+            return true;
+        }
+
+        return false;
+        
+    }
+
     function bookDel($idBookD){
 
     	include('connection.php');
@@ -107,10 +124,12 @@ class ClassFunction
         include('connection.php');
         $connection = connect();
 
-        $query2 = "SELECT COUNT(*) total FROM t_comentary";
+        /*$query2 = "SELECT COUNT(*) total FROM t_comentary";*/
+        $query2 = "SELECT * FROM t_comentary ORDER BY id DESC LIMIT 1";
         $result2 = mysqli_query( $connection, $query2 ) or die("Something went wrong in the query to the database");
-        $lastId = (array)$result2->fetch_row();
-        $id = $lastId[0];
+        $lastId = mysqli_fetch_array($result2);
+        $id = $lastId['id'];
+        //echo $id;
         if($id == ''){
             $id = 0;
         }

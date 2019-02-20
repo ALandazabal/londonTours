@@ -4,6 +4,15 @@
 	$connection = connect();
 	$query = "SELECT * FROM t_user_tour where fk_user =".$_SESSION['currentuser'];
 	$result = mysqli_query($connection, $query);
+
+	$objBookEdit = null;
+	if(isset($_COOKIE['idBook'])){
+	    $idBook = $_COOKIE['idBook'];
+	    $sqledit = "SELECT tut.*, tu.name as user, tt.name as tour FROM t_user_tour as tut JOIN t_user as tu ON tut.fk_user = tu.id JOIN t_tour as tt ON tut.fk_tour = tt.id WHERE tut.id = '$idBook'";
+	    $rcedit = mysqli_query($connection, $sqledit);
+	    $objBookEdit = $rcedit->fetch_array();
+	}
+
 	disconnect($connection);
  ?>
 <!DOCTYPE html>
@@ -56,19 +65,21 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                            <li><a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i>New Booking</a>
+                            <li><a href="user.php"><i class="notika-icon notika-house"></i>Tours</a>
                             </li>
-                            <li class="active"><a data-toggle="tab" href="#mailbox"><i class="notika-icon notika-mail"></i> My Bookings</a>
+                            <li class="active"><a href="mybookings.php"><i class="notika-icon notika-mail"></i> My Bookings</a>
+                            </li>
+                            <li><a href="profile.php"><i class="notika-icon notika-mail"></i> My Profile</a>
                             </li>
                         </ul>
-                        <div class="tab-content custom-menu-content">
-                            <div id="Home" class="tab-pane  notika-tab-menu-bg animated flipInX">
+                        <!-- <div class="tab-content custom-menu-content">
+                            <div id="Home" class="tab-pane in active notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
                                     <li><a href="user.php">Do it</a>
                                     </li>
                                 </ul>
                             </div>
-                            <div id="mailbox" class="tab-pane in active notika-tab-menu-bg animated flipInX">
+                            <div id="mailbox" class="tab-pane notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
                                     <li><a href="mybookings.php">Bookings</a>
                                     </li>
@@ -76,7 +87,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -92,20 +103,20 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="data-table-list">
-                        <div class="basic-tb-hd">
+                        <!-- <div class="basic-tb-hd">
                             <p>It's just that simple. Turn your simple table into a sophisticated data table and offer your users a nice experience and great features without any effort.</p>
-                        </div>
+                        </div> -->
                         <div class="table-responsive">
                             <h2>Basic Example</h2>
                             <table id="data-table-basic" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Tour Name</th>
-                                        <th>Tour Date</th>
-                                        <th>Tour State</th>
-                                        <th>Price Tour</th>
-                                        <th>Tickets</th>
                                         <th>Reservation Date</th>    
+                                        <th>Price Tour</th>
+                                        <th>Tour State</th>
+                                        <th>Edit Booking</th>
+                                        <th>Cancel Booking</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -120,14 +131,20 @@
 					        					$retVal = ($column['state']==1) ? "active" : "cancelled";
 					        					echo "<tr>";
 					        					echo "<td>".$tour['name']."</td>";
-					        					echo "<td>".$tour['date']."</td>";
-					        					echo "<td>".$retVal."</td>";
-					        					echo "<td>".$tour['price']."</td>";
-					        					echo "<td>".$column['nTickets']."</td>";
 					        					echo "<td>".$column['date']."</td>";
+					        					/*echo "<td>".$tour['date']."</td>";*/
+					        					echo "<td>".$tour['price']."</td>";
+					        					echo "<td>".$retVal."</td>";
+					        					/*echo "<td>".$column['nTickets']."</td>";*/
+					        					if ($retVal == "active") {
+					        						$on = 'return confirm("Are you sure?") && bookCancel('.$column['id'].')';
+					        						echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".bookEditModal" onclick="bookEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
+								                	echo "<td><a class='btn' title='Cancel' onclick= '".$on."'><i class='glyphicon glyphicon-remove'></i></a></td>";
+					        					}else{
+					        						echo "<td><a href='#' class='btn disabled'><i class='glyphicon glyphicon-edit'></i></a></td>";
+					        						echo "<td><a href='#' class='btn disabled'><i class='glyphicon glyphicon-remove'></i></a></td>";
+					        					}
 					        					echo "</tr>";
-					        					
-
 					        				}
 					        				disconnect($connection);	
 					        			}else{
@@ -138,11 +155,11 @@
                                 <tfoot>
                                     <tr>
                                         <th>Tour Name</th>
-                                        <th>Tour Date</th>
-                                        <th>Tour State</th>
+                                        <th>Reservation Date</th>    
                                         <th>Price Tour</th>
-                                        <th>Tickets</th>
-                                        <th>Reservation Date</th>
+                                        <th>Tour State</th>
+                                        <th>Edit Booking</th>
+                                        <th>Cancel Booking</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -153,6 +170,50 @@
         </div>
     </div>
     <!-- Data Table area End-->
+
+    <!--modal edit booking-->
+	<div id="myModal" class="modal fade bookEditModal" role="dialog">
+		  <div class="modal-dialog">
+
+		    <!-- Modal content-->
+		    <div class="modal-content">
+		      
+		      <form id="bookEditModal" action="save.php" method="post" accept-charset="utf-8">
+		      	<div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">Edit Booking: # <?php echo $objBookEdit['id']; ?></h4>
+			      </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Date</label>
+			      	<input type="text" id="date" name="date" value="<?php echo $objBookEdit['date']; ?>" placeholder="Date" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Tickets</label>
+			      	<input type="text" id="tickets" name="tickets" value="<?php echo $objBookEdit['nTickets']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">User</label>
+			      	<input type="text" id="user" name="user" value="<?php echo $objBookEdit['user']; ?>" placeholder="User" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Tour</label>
+			      	<input type="text" id="tour" name="tour" value="<?php echo $objBookEdit['tour']; ?>" placeholder="Tour" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">State</label>
+			      	<input type="text" id="state" name="state" value="<?php $retVal = ($objBookEdit['state']==1) ? 'active' : 'cancelled'; echo $retVal; ?>" placeholder="State" class="form-control" disabled>
+			    </div>
+			    
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" onclick="bookUpdt(<?php echo $objBookEdit['id']; ?>)">Update!</button>
+			      </div>
+		      </form>
+		    </div>
+
+		  </div>
+		</div>
+
+
 		<!-- jQuery -->
 		<!-- <script src="//code.jquery.com/jquery.js"></script> -->
 		<script src="../js/jquery-3.3.1.min.js"></script>
@@ -165,6 +226,7 @@
 		<!-- JavaScript -->
 		<script type="text/javascript" src="../js/main.js"></script>
 		<script type="text/javascript" src="../js/login.js"></script>
+		<script type="text/javascript" src="../js/ajax.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	</body>
 </html>

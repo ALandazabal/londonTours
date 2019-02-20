@@ -30,7 +30,7 @@
 			$idtour = $lastId[0];
 			$idtour++;
 			
-			$query = "INSERT INTO t_user_tour (id, date, nTickets, fk_user, fk_tour) VALUES ('".$idtour."','".$date."','".$tik."','".$_SESSION['currentuser']."','".$_SESSION['idtour']."')";	
+			$query = "INSERT INTO t_user_tour (id, date, nTickets, fk_user, fk_tour, state) VALUES ('".$idtour."','".$date."','".$tik."','".$_SESSION['currentuser']."','".$_SESSION['idtour']."',1)";	
 			$result = mysqli_query( $connection, $query );
 			if($result){
 				header('Location:../user/mybookings.php');

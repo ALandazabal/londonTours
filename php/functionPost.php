@@ -81,6 +81,21 @@ if($_POST){
 	    }
 	}
 
+	if(isset($_POST["idBookC"])){
+    
+	    $class = new classFunction();
+ 
+	    $idBookC = $_POST["idBookC"];
+
+	    $bool = $class->bookCancel($idBookC);
+	    
+	    if($bool){
+	      echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
+
 	if(isset($_POST["idBookD"])){
     
 	    $class = new classFunction();

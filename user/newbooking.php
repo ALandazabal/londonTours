@@ -58,12 +58,14 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                            <li class="active"><a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i>New Booking</a>
+                            <li class="active"><a href="user.php"><i class="notika-icon notika-house"></i>Tours</a>
                             </li>
-                            <li><a data-toggle="tab" href="#mailbox"><i class="notika-icon notika-mail"></i> My Bookings</a>
+                            <li><a href="mybookings.php"><i class="notika-icon notika-mail"></i> My Bookings</a>
+                            </li>
+                            <li><a href="profile.php"><i class="notika-icon notika-mail"></i> My Profile</a>
                             </li>
                         </ul>
-                        <div class="tab-content custom-menu-content">
+                        <!-- <div class="tab-content custom-menu-content">
                             <div id="Home" class="tab-pane in active notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
                                     <li><a href="user.php">Do it</a>
@@ -78,7 +80,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -96,8 +98,9 @@
         		</div>
         		<div class="col-lg-4 col-md-4 col-xs-12">
         			<div class="text-tour box-white">
-        				<?php echo "<p>".$tour['itinerary']."</p>" ?>
-        				<?php echo "<a href='#'  data-toggle='modal' data-target='#myModal'>Book</a>"; ?>
+        				<?php echo "<label>Itinerary</label><p>".$tour['itinerary']."</p>" ?>
+        				<br/>
+        				<a href='#' style="" data-toggle='modal' data-target='#myModal' class="btn btn-success">Book!</a>
         			</div>
         		</div>
         	</div>
@@ -122,6 +125,46 @@
         		</div>
         	</div>	
         </div>
+        <br/>
+        <br/>
+        <footer>
+	      <div class="container">	
+	        <div class="row">
+	          <div class="col-md-4">
+	            <span class="copyright">Copyright &copy; London Tours 2019</span>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline social-buttons">
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-twitter"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-facebook-f"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-linkedin-in"></i>
+	                </a>
+	              </li>
+	            </ul>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline quicklinks">
+	              <li class="list-inline-item">
+	                <a href="#">Privacy Policy</a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">Terms of Use</a>
+	              </li>
+	            </ul>
+	          </div>
+	        </div>
+	      </div>
+	    </footer>
         
 		<!-- Modal -->
 		<div id="myModal" class="modal fade" role="dialog">
@@ -135,7 +178,8 @@
 		      </div>
 		      <form action="../php/validate-booking.php" method="post" accept-charset="utf-8">
 			      <div class="modal-body">
-			      	<input type="number" name="tickets" value="1" placeholder="Tickets" class="inputNumber">
+			      	<label for="mcNamelgm">Please choose the number of tickets to request:</label>
+			      	<input type="number" name="tickets" value="1" placeholder="Tickets" class="inputNumber" min="1" max="20" >
 			      </div>
 			      <div class="modal-footer">
 			        <input type="submit" class="btn btn-default" value="Book!" required="At least One"></input>

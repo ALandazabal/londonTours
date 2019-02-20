@@ -39,7 +39,7 @@
     		$result = mysqli_query( $connection, $query ) or die("Something went wrong in the query to the database");
     		if($result->num_rows > 0){
     			$hash = $result->fetch_array();
-    			echo $username.$hash['password'];
+    			//echo $username.$hash['password'];
     			if(password_verify($pass, $hash['password'])){
     				$_SESSION['currentuser'] = $hash['id'];
                     if($hash['fk_user_type']==1){

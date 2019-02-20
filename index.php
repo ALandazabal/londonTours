@@ -65,7 +65,7 @@
 	      			<div class="intro-text">
 			          <div class="intro-lead-in">Welcome To London Tours!</div>
 			          <div class="intro-heading text-uppercase">Enjoy with Us!</div>
-			          <a class="btn btn-signup btn-xl text-uppercase" href="signup.html">Sign Up</a>
+			          <a class="btn btn-signup btn-xl text-uppercase" href="signup.php">Sign Up</a>
 			        </div>
 	      		</div>
 	      		<div class="col-lg-12 col-md-12 col-sm-12 col">
@@ -86,15 +86,9 @@
                 $row_cnt = mysqli_num_rows($result);
                 
                 
-                $pages = ($row_cnt>$bypage) ? ceil($row_cnt/$bypage) : 1 ;
-               
-                $start = ($_GET['page']-1)*$bypage;
-                $queryByPage = "SELECT * FROM t_tour LIMIT ".$start.",".$bypage."";
-                $resutl = mysqli_query($connection,$queryByPage);
-                echo $queryByPage;
                 while ($column = mysqli_fetch_array( $result ))
                 {
-                    echo "<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>";
+                    echo "<div class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>";
                     echo "<div class='card'>";
                     echo "<img class='card-img-top' src='../img/".$column['image']."' alt='Card image cap'>";
                     echo "<div class='card-body'>";
@@ -108,26 +102,35 @@
                     echo "</div>";
                     echo "</div>";
                 }
+
+                /*$pages = ($row_cnt>$bypage) ? ceil($row_cnt/$bypage) : 1 ;
+               
+                $start = ($_GET['page']-1)*$bypage;
+                $queryByPage = "SELECT * FROM t_tour LIMIT ".$start.",".$bypage."";
+                $resutl = mysqli_query($connection,$queryByPage);
+                echo $queryByPage;*/
+
                 disconnect($connection)
-           ?>	
-           <ul class="pagination">
-			  
-				<?php 
-				$pagePrev = $_GET['page']-1;
-				$classPrev = ($pagePrev == 0) ? 'disabled' : '' ;
-				
-				echo "<li class ='".$classPrev."'><a href='index.php?page=".$pagePrev."' > Prev</a></li>" 
-				?>
-			  	
-			  <?php for ($i=0; $i < $pages; $i++):?>
-			  	<li><a href="index.php?page=<?php echo $i+1 ?>"><?php echo $i+1 ?></a></li>
-			  <?php endfor ?>
-			  
-			  <?php 
-			  $pageNext = $_GET['page']+1;
-			  $ClassNext = ($pageNext == $row_cnt+1 ) ? 'disabled' : '' ;
-			  echo "<li class = '".$ClassNext."'><a href='index.php?page=".$pageNext."'>Next</a></li>"; ?>
-			</ul>
+           ?>
+
+		           <!-- <ul class="pagination">
+					  
+						<?php 
+						$pagePrev = $_GET['page']-1;
+						$classPrev = ($pagePrev == 0) ? 'disabled' : '' ;
+						
+						echo "<li class ='".$classPrev."'><a href='index.php?page=".$pagePrev."' > Prev</a></li>" 
+						?>
+					  	
+					  <?php for ($i=0; $i < $pages; $i++):?>
+					  	<li><a href="index.php?page=<?php echo $i+1 ?>"><?php echo $i+1 ?></a></li>
+					  <?php endfor ?>
+					  
+					  <?php 
+					  $pageNext = $_GET['page']+1;
+					  $ClassNext = ($pageNext == $row_cnt+1 ) ? 'disabled' : '' ;
+					  echo "<li class = '".$ClassNext."'><a href='index.php?page=".$pageNext."'>Next</a></li>"; ?>
+					</ul> -->
 				</div>
 
 			</section>
@@ -206,6 +209,30 @@
 	        </div>
 	      </div>
 	    </footer>
+
+
+	    <div id="myctry" class="modal fade ctryModal" role="dialog">
+		  <div class="modal-dialog">
+
+		    <div class="modal-content">
+		      
+		      <form id="ctryModal" action="save.php" method="post" accept-charset="utf-8">
+		      	<div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">Confirmation: </h4>
+			      </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Your message was sent successfully</label>
+			    </div>
+			  
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".ctryModal">Ok!</button>
+			      </div>
+		      </form>
+		    </div>
+
+		  </div>
+		</div>
 		
 
 		<!-- jQuery -->

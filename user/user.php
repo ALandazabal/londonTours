@@ -58,15 +58,17 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                            <li class="active"><a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i>New Booking</a>
+                            <li class="active"><a href="user.php"><i class="notika-icon notika-house"></i>Tours</a>
                             </li>
-                            <li><a data-toggle="tab" href="#mailbox"><i class="notika-icon notika-mail"></i> My Bookings</a>
+                            <li><a href="mybookings.php"><i class="notika-icon notika-mail"></i> My Bookings</a>
+                            </li>
+                            <li><a href="profile.php"><i class="notika-icon notika-mail"></i> My Profile</a>
                             </li>
                         </ul>
-                        <div class="tab-content custom-menu-content">
+                        <!-- <div class="tab-content custom-menu-content">
                             <div id="Home" class="tab-pane in active notika-tab-menu-bg animated flipInX">
                                 <ul class="notika-main-menu-dropdown">
-                                    <li><a href="newbooking.php">Do it</a>
+                                    <li><a href="user.php">Do it</a>
                                     </li>
                                 </ul>
                             </div>
@@ -78,14 +80,17 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
         <!-- Main Menu area End-->
     <div class="container">
-        <div class="row">
+        <h1>Welcome <?php echo $user['name'];?></h1>
+        <br/>
+        <br/>
+        <div class="row">        
              <?php 
                 $connection = connect();
                 $query = "SELECT * FROM t_tour";
@@ -109,8 +114,6 @@
                 disconnect($connection)
            ?>
         </div>
-        
-    	<h1>Welcome <?php echo $user['name'];?></h1>
        
     </div>
 	

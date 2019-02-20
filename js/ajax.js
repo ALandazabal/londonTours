@@ -173,6 +173,34 @@ function bookUpdt(idBook){
     });
 }
 
+function bookCancel(idBook){
+
+    var form_data = new FormData();
+
+    form_data.append("idBookC", idBook);
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: '../php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {               
+        },
+        success: function(msg) {
+            if(msg == 'ok'){
+                $("#data-table-basic").load(" #data-table-basic");
+                //$('.bookEditModal').modal('toggle');
+            }else{
+                //$('.msgChangePass').html('<div class="alert alert-danger alert-dismissable col-md-10 col-md-offset-1 "><button type="button" class="close" data-dismiss="alert"><strong>&times;</strong></button><strong>¡Error!</strong> Ocurrio un problema al guardar.</div>');
+                console.log('Error Update Booking: ' +msg);
+            }
+                
+        }
+    });
+}
+
 function bookDel(idBook){
 
     var form_data = new FormData();    
@@ -222,8 +250,10 @@ function ctryAdd(){
         },
         success: function(msg) {
             if(msg == 'ok'){
-                /*$("#data-table-basic").load(" #data-table-basic");
-                $('.bookEditModal').modal('toggle');*/
+                $('.ctryModal').modal('toggle');
+                $('#nameMsg').val('');
+                $('#emailMsg').val('');
+                $('#textMsg').val('');
             }else{
                 console.log('Error Create Commentary: ' +msg);
             }
