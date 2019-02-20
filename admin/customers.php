@@ -69,6 +69,8 @@
                             </li>
                             <li><a href="bookings.php"><i class="notika-icon notika-mail"></i>Bookings</a>
                             </li>
+                            <li><a href="tours.php"><i class="notika-icon notika-mail"></i>Tours</a>
+                            </li>
                             <li><a href="commentaries.php"><i class="notika-icon notika-mail"></i>Commentaries</a>
                             </li>
                         </ul>
@@ -134,9 +136,14 @@
 					        					echo "<td>".$column['email']."</td>";
 					        					echo "<td>".$column['name']."</td>";
 					        					echo "<td>".$column['fk_user_type']."</td>";
-					        					$on = 'return confirm("Are you sure?") && userDel('.$column['id'].')';
-								                echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".userEditModal" onclick="userEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
-								                echo "<td><a class='btn' title='Delete' onclick= '".$on."'><i class='glyphicon glyphicon-trash'></i></a></td>";
+					        					if ($column['id'] != $_SESSION['currentuser']) {
+						        					$on = 'return confirm("Are you sure?") && userDel('.$column['id'].')';
+									                echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".userEditModal" onclick="userEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
+									                echo "<td><a class='btn' title='Delete' onclick= '".$on."'><i class='glyphicon glyphicon-trash'></i></a></td>";
+									            }else{
+									            	echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".userEditModal" onclick="userEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
+									                echo "<td><a class='btn disabled' title='Delete'><i class='glyphicon glyphicon-trash'></i></a></td>";
+									            }
 					        					echo "</tr>";
 					        					
 

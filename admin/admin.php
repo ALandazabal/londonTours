@@ -40,7 +40,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.php"><img src="../img/LogoBrand.png"></a>
+					<a class="navbar-brand" href="../index.php"><img src="../img/LogoBrand.png"></a>
 				</div>
 		
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -61,6 +61,8 @@
                             <li><a href="customers.php"><i class="notika-icon notika-house"></i>Customers</a>
                             </li>
                             <li><a href="bookings.php"><i class="notika-icon notika-mail"></i>Bookings</a>
+                            </li>
+                            <li><a href="tours.php"><i class="notika-icon notika-mail"></i>Tours</a>
                             </li>
                             <li><a href="commentaries.php"><i class="notika-icon notika-mail"></i>Commentaries</a>
                             </li>

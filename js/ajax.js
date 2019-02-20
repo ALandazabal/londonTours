@@ -288,3 +288,150 @@ function ctryDel(idCtry){
     });
 
 }
+
+//Tours
+function tourCreate(){
+
+    var form_data = new FormData(); 
+    var date = $('#date').val();
+    var name = $('#name').val(); 
+    var image = $('#image').val();
+    var price = $('#price').val();
+    var itinerary = $('#itinerary').val();
+    var duration = $('#duration').val(); 
+    var description = $('#description').val();
+
+    form_data.append("date", date);    
+    form_data.append("name", name);   
+    form_data.append("image", image);   
+    form_data.append("price", price);
+    form_data.append("itinerary", itinerary);       
+    form_data.append("duration", duration);
+    form_data.append("description", description);
+
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: '../php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {               
+        },
+        success: function(msg) {
+            if(msg == 'ok'){
+                $("#data-table-basic").load(" #data-table-basic");
+                $('.newTour').modal('toggle');
+            }else{
+                //$('.msgChangePass').html('<div class="alert alert-danger alert-dismissable col-md-10 col-md-offset-1 "><button type="button" class="close" data-dismiss="alert"><strong>&times;</strong></button><strong>¡Error!</strong> Ocurrio un problema al guardar.</div>');
+                console.log('Error New Tour: ' +msg);
+            }
+                
+        }
+    });
+}
+
+function tourEdit(idTour){
+    var form_data = new FormData();
+
+    form_data.append("idTour", idTour);
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: '../php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {
+            
+        },
+        success: function(msg) {
+            if(msg != 'nok'){
+                $("#tourEditModal").load(" #tourEditModal");
+            }else{
+                console.log('Error Edit Tour: ' +msg);
+            }
+                
+        },
+        error: function(jqXHR,error, errorThrown) {  
+           if(jqXHR.status && jqXHR.status==400){
+                console.log(jqXHR); 
+           }else{
+               console.log("Something went wrong");
+            }
+        }
+
+    });
+
+}
+
+function tourUpdt(idTour){
+
+    var form_data = new FormData(); 
+    var date = $('#dateE').val();
+    var name = $('#nameE').val(); 
+    var image = $('#imageE').val();
+    var price = $('#priceE').val();
+    var itinerary = $('#itineraryE').val();
+    var duration = $('#durationE').val(); 
+    var description = $('#descriptionE').val();
+
+    form_data.append("date", date);    
+    form_data.append("name", name);   
+    form_data.append("image", image);   
+    form_data.append("price", price);
+    form_data.append("itinerary", itinerary);       
+    form_data.append("duration", duration);
+    form_data.append("description", description);
+    form_data.append("idTourU", idTour);
+
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: '../php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {               
+        },
+        success: function(msg) {
+            if(msg == 'ok'){
+                $("#data-table-basic").load(" #data-table-basic");
+                $('.tourEditModal').modal('toggle');
+            }else{
+                //$('.msgChangePass').html('<div class="alert alert-danger alert-dismissable col-md-10 col-md-offset-1 "><button type="button" class="close" data-dismiss="alert"><strong>&times;</strong></button><strong>¡Error!</strong> Ocurrio un problema al guardar.</div>');
+                console.log('Error Update Tour: ' +msg);
+            }
+                
+        }
+    });
+}
+
+function tourDel(idTourD){
+
+    var form_data = new FormData();    
+    form_data.append("idTourD", idTourD);    
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: '../php/functionPost.php',
+        data: form_data,
+        beforeSend: function () {              
+        },
+       success: function(msg) {
+            if(msg == 'ok'){
+                $("#data-table-basic").load(" #data-table-basic");
+            }else{
+                console.log('Error Delete Tour: ' +msg);
+            }
+                
+        }
+    });
+
+}

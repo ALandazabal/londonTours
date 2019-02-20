@@ -135,6 +135,74 @@ if($_POST){
 	      echo 'nok';
 	    }
 	}
+
+	//Tours
+	if(isset($_POST["date"]) && isset($_POST["name"]) && isset($_POST["image"]) && isset($_POST["price"])){
+    
+	    $class = new classFunction();
+
+	    $date = $_POST["date"];
+	    $name = $_POST["name"];    
+	    $image = $_POST["image"];
+	    $price = $_POST["price"];    
+	    $itinerary = $_POST["itinerary"];
+	    $duration = $_POST["duration"];
+	    $description = $_POST["description"];
+
+	    $bool = $class->tourCreate($date, $name, $image, $price, $itinerary, $duration, $description);
+	    
+	    if($bool){
+	      echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
+
+	if(isset($_POST["idTour"])) {
+
+	    $class = new classFunction();
+	    $idTour = $_POST["idTour"];
+	    echo "post";
+
+	    if($class->tourEdit($idTour)){
+	      //echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
+
+	if(isset($_POST["idTourU"]) && isset($_POST["name"]) && isset($_POST["image"]) && isset($_POST["price"])){
+    
+	    $class = new classFunction();
+
+	    $date = $_POST["date"];
+	    $name = $_POST["name"];    
+	    $image = $_POST["image"];
+	    $price = $_POST["price"];    
+	    $itinerary = $_POST["itinerary"];
+	    $duration = $_POST["duration"];
+	    $description = $_POST["description"];
+	    $idTourU = $_POST["idTourU"];
+
+	    $bool = $class->tourUpdt($date, $name, $image, $price, $itinerary, $duration, $description, $idTourU);
+	    
+	    if($bool){
+	      echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
+
+	if(isset($_POST["idTourD"])){
+    
+	    $class = new classFunction();
+	    $idTourD = $_POST["idTourD"];
+	    if($class->tourDel($idTourD)){
+	      echo 'ok';
+	    }else{
+	      echo 'nok';
+	    }
+	}
 }
 
 ?>

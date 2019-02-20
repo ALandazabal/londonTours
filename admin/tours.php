@@ -2,15 +2,15 @@
 	include('../php/connection.php');
 	session_start();
 	$connection = connect();
-	$query = "SELECT * FROM t_user_tour";
+	$query = "SELECT * FROM t_tour";
 	$result = mysqli_query($connection, $query);
 
-	$objBookEdit = null;
-	if(isset($_COOKIE['idBook'])){
-	    $idBook = $_COOKIE['idBook'];
-	    $sqledit = "SELECT tut.*, tu.name as user, tt.name as tour FROM t_user_tour as tut JOIN t_user as tu ON tut.fk_user = tu.id JOIN t_tour as tt ON tut.fk_tour = tt.id WHERE tut.id = '$idBook'";
+	$objTourEdit = null;
+	if(isset($_COOKIE['idTour'])){
+	    $idTour = $_COOKIE['idTour'];
+	    $sqledit = "SELECT * FROM t_tour WHERE id = '$idTour'";
 	    $rcedit = mysqli_query($connection, $sqledit);
-	    $objBookEdit = $rcedit->fetch_array();
+	    $objTourEdit = $rcedit->fetch_array();
 	}
 
 	disconnect($connection);
@@ -21,7 +21,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Bookings - London Tours</title>
+		<title>Tours - London Tours</title>
 
 		<!-- Bootstrap CSS -->
 		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -67,29 +67,13 @@
                         <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
                             <li><a href="customers.php"><i class="notika-icon notika-house"></i>Customers</a>
                             </li>
-                            <li class="active"><a href="bookings.php"><i class="notika-icon notika-mail"></i>Bookings</a>
+                            <li><a href="bookings.php"><i class="notika-icon notika-mail"></i>Bookings</a>
                             </li>
-                            <li><a href="tours.php"><i class="notika-icon notika-mail"></i>Tours</a>
+                            <li class="active"><a href="tours.php"><i class="notika-icon notika-mail"></i>Tours</a>
                             </li>
                             <li><a href="commentaries.php"><i class="notika-icon notika-mail"></i>Commentaries</a>
                             </li>
                         </ul>
-                        <!-- <div class="tab-content custom-menu-content">
-                            <div id="Home" class="tab-pane  notika-tab-menu-bg animated flipInX">
-                                <ul class="notika-main-menu-dropdown">
-                                    <li><a href="user.php">Do it</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div id="mailbox" class="tab-pane in active notika-tab-menu-bg animated flipInX">
-                                <ul class="notika-main-menu-dropdown">
-                                    <li><a href="mybookings.php">Bookings</a>
-                                    </li>
-                                    <li><a href="editbooking.php">Edit Bookings</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -109,16 +93,18 @@
                             <p>It's just that simple. Turn your simple table into a sophisticated data table and offer your users a nice experience and great features without any effort.</p>
                         </div> -->
                         <div class="table-responsive">
-                            <h2>Bookings</h2>
+                            <h2>Tours  </h2> 
+                            <a href='#' style="" data-toggle='modal' data-target='#newTour' class="btn btn-success">New Tour!</a>
+                            <br/>
+                            <br/>
                             <table id="data-table-basic" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>id</th>
-                                        <th>date</th>
-                                        <th>Tickets Qty</th>
-                                        <th>User</th>
-                                        <th>Tour</th>
-                                        <th>State</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th>Price</th>
+                                        <th>Duration</th>
                                         <th>Edit Booking</th>    
                                         <th>Delete Booking</th>
                                     </tr>
@@ -129,32 +115,16 @@
 					        				$connection = connect();
 
 					        				while ( $column = mysqli_fetch_array($result)) {
-					        					$id = $column['fk_user'];
-					        					$query = "SELECT name FROM t_user WHERE id = '$id'";
-					        					$result2 = mysqli_query($connection,$query) or die("error on database");
-					        					$user = $result2->fetch_array();
-
-					        					$id = $column['fk_tour'];
-					        					$query = "SELECT name FROM t_tour WHERE id = '$id'";
-					        					$result2 = mysqli_query($connection,$query) or die("error on database");
-					        					$tour = $result2->fetch_array();
-
-					        					$retVal = ($column['state']==1) ? "active" : "cancelled";
 					        					echo "<tr>";
 					        					echo "<td>".$column['id']."</td>";
+					        					echo "<td>".$column['name']."</td>";
 					        					echo "<td>".$column['date']."</td>";
-					        					echo "<td>".$column['nTickets']."</td>";
-					        					echo "<td>".$user['name']."</td>";
-					        					echo "<td>".$tour['name']."</td>";
-					        					echo "<td>".$retVal."</td>";
-					        					if ($retVal == "active") {
-					        						$on = 'return confirm("Are you sure?") && bookDel('.$column['id'].')';
-					        						echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".bookEditModal" onclick="bookEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
-								                	echo "<td><a class='btn' title='Delete' onclick= '".$on."'><i class='glyphicon glyphicon-trash'></i></a></td>";
-					        					}else{
-					        						echo "<td><a href='#' class='btn disabled'><i class='glyphicon glyphicon-edit'></i></a></td>";
-					        						echo "<td><a href='#' class='btn disabled'><i class='glyphicon glyphicon-trash'></i></a></td>";
-					        					}
+					        					echo "<td>".$column['price']."</td>";
+					        					echo "<td>".$column['duration']."</td>";
+					        					$on = 'return confirm("Are you sure?") && tourDel('.$column['id'].')';
+				        						echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".tourEditModal" onclick="tourEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
+							                	echo "<td><a class='btn' title='Delete' onclick= '".$on."'><i class='glyphicon glyphicon-trash'></i></a></td>";
+					        					
 					        					echo "</tr>";
 					        					
 
@@ -167,12 +137,11 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>id</th>
-                                        <th>date</th>
-                                        <th>Tickets Qty</th>
-                                        <th>User</th>
-                                        <th>Tour</th>
-                                        <th>State</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th>Price</th>
+                                        <th>Duration</th>
                                         <th>Edit Booking</th>    
                                         <th>Delete Booking</th>
                                     </tr>
@@ -187,43 +156,97 @@
     <!-- Data Table area End-->
 
     <!--modal edit booking-->
-	<div id="myModal" class="modal fade bookEditModal" role="dialog">
+	<div id="myModal" class="modal fade tourEditModal" role="dialog">
 		  <div class="modal-dialog">
 
 		    <!-- Modal content-->
 		    <div class="modal-content">
-		      <!-- <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Edit User: # <?php echo $objBookEdit['id']; ?></h4>
-		      </div> -->
-		      <form id="bookEditModal" action="save.php" method="post" accept-charset="utf-8">
+		      <form id="tourEditModal" action="save.php" method="post" accept-charset="utf-8">
 		      	<div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal">&times;</button>
-			        <h4 class="modal-title">Edit Booking: # <?php echo $objBookEdit['id']; ?></h4>
+			        <h4 class="modal-title">Edit Tour: # <?php echo $objTourEdit['id']; ?></h4>
 			      </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Date</label>
-			      	<input type="text" id="date" name="date" value="<?php echo $objBookEdit['date']; ?>" placeholder="Date" class="form-control" >
+			      	<input type="text" id="dateE" name="dateE" value="<?php echo $objTourEdit['date']; ?>" placeholder="Date" class="form-control" >
 			    </div>
 			    <div class="modal-body">
-			      	<label for="mcNamelgm">Tickets</label>
-			      	<input type="text" id="tickets" name="tickets" value="<?php echo $objBookEdit['nTickets']; ?>" placeholder="Tickets" class="form-control" >
+			      	<label for="mcNamelgm">name</label>
+			      	<input type="text" id="nameE" name="nameE" value="<?php echo $objTourEdit['name']; ?>" placeholder="name" class="form-control" >
 			    </div>
 			    <div class="modal-body">
-			      	<label for="mcNamelgm">User</label>
-			      	<input type="text" id="user" name="user" value="<?php echo $objBookEdit['user']; ?>" placeholder="User" class="form-control" >
+			      	<label for="mcNamelgm">Image</label>
+			      	<input type="text" id="imageE" name="imageE" value="<?php echo $objTourEdit['image']; ?>" placeholder="image" class="form-control" >
 			    </div>
 			    <div class="modal-body">
-			      	<label for="mcNamelgm">Tour</label>
-			      	<input type="text" id="tour" name="tour" value="<?php echo $objBookEdit['tour']; ?>" placeholder="Tour" class="form-control" >
+			      	<label for="mcNamelgm">Price</label>
+			      	<input type="text" id="priceE" name="priceE" value="<?php echo $objTourEdit['price']; ?>" placeholder="price" class="form-control" >
 			    </div>
 			    <div class="modal-body">
-			      	<label for="mcNamelgm">State</label>
-			      	<input type="text" id="state" name="state" value="<?php echo $objBookEdit['state']; ?>" placeholder="State" class="form-control" >
+			      	<label for="mcNamelgm">Itinerary</label>
+			      	<input type="text" id="itineraryE" name="itineraryE" value="<?php echo $objTourEdit['itinerary']; ?>" placeholder="itinerary" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Duration</label>
+			      	<input type="text" id="durationE" name="durationE" value="<?php echo $objTourEdit['duration']; ?>" placeholder="duration" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Description</label>
+			      	<input type="text" id="descriptionE" name="descriptionE" value="<?php echo $objTourEdit['description']; ?>" placeholder="description" class="form-control" >
 			    </div>
 			    
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" onclick="bookUpdt(<?php echo $objBookEdit['id']; ?>)">Update!</button>
+			        <button type="button" class="btn btn-default" onclick="tourUpdt(<?php echo $objTourEdit['id']; ?>)">Update!</button>
+			      </div>
+		      </form>
+		    </div>
+
+		  </div>
+		</div>
+
+
+		<!--modal new Tour-->
+	<div id="newTour" class="modal fade newTour" role="dialog">
+		  <div class="modal-dialog">
+
+		    <!-- Modal content-->
+		    <div class="modal-content">
+		      <form  action="save.php" method="post" accept-charset="utf-8">
+		      	<div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">New Tour:</h4>
+			      </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Date</label>
+			      	<input type="text" id="date" name="date" value="" placeholder="Date" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">name</label>
+			      	<input type="text" id="name" name="name" value="" placeholder="name" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Image</label>
+			      	<input type="text" id="image" name="image" value="" placeholder="image" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Price</label>
+			      	<input type="text" id="price" name="price" value="" placeholder="price" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Itinerary</label>
+			      	<input type="text" id="itinerary" name="itinerary" value="" placeholder="itinerary" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Duration</label>
+			      	<input type="text" id="duration" name="duration" value="" placeholder="duration" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Description</label>
+			      	<input type="text" id="description" name="description" value="" placeholder="description" class="form-control" >
+			    </div>
+			    
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" onclick="tourCreate()">Create!</button>
 			      </div>
 		      </form>
 		    </div>
