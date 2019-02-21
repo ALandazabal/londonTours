@@ -90,7 +90,7 @@
                 {
                     echo "<div class='col-lg-4 col-md-4 col-sm-12 col-xs-12'>";
                     echo "<div class='card'>";
-                    echo "<img class='card-img-top' src='../img/".$column['image']."' alt='Card image cap'>";
+                    echo "<img class='card-img-top' src='img/".$column['image']."' alt='Card image cap'>";
                     echo "<div class='card-body'>";
                     echo "<h5 class='card-title'>".$column['name']."</h5>";
                     echo "<p class='card-text'>".$column['description']."</p>";
@@ -222,7 +222,7 @@
 			        <h4 class="modal-title">Confirmation: </h4>
 			      </div>
 			    <div class="modal-body">
-			      	<label for="mcNamelgm">Your message was sent successfully</label>
+			      	<label for="mcNamelgm">Your message was sent successfully!</label>
 			    </div>
 			  
 			      <div class="modal-footer">

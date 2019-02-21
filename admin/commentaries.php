@@ -49,7 +49,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.php"><img src="../img/LogoBrand.png"></a>
+					<a class="navbar-brand" href="../index.php"><img src="../img/LogoBrand.png"></a>
 				</div>
 		
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -109,7 +109,7 @@
                             <p>It's just that simple. Turn your simple table into a sophisticated data table and offer your users a nice experience and great features without any effort.</p>
                         </div> -->
                         <div class="table-responsive">
-                            <h2>Bookings</h2>
+                            <h2>Commentaries</h2>
                             <table id="data-table-basic" class="table table-striped">
                                 <thead>
                                     <tr>
@@ -166,6 +166,46 @@
         </div>
     </div>
     <!-- Data Table area End-->
+    <br/>
+	<br/>
+    <footer>
+	      <div class="container">	
+	        <div class="row">
+	          <div class="col-md-4">
+	            <span class="copyright">Copyright &copy; London Tours 2019</span>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline social-buttons">
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-twitter"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-facebook-f"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-linkedin-in"></i>
+	                </a>
+	              </li>
+	            </ul>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline quicklinks">
+	              <li class="list-inline-item">
+	                <a href="#">Privacy Policy</a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">Terms of Use</a>
+	              </li>
+	            </ul>
+	          </div>
+	        </div>
+	      </div>
+	    </footer>
 
 		<!-- jQuery -->
 		<!-- <script src="//code.jquery.com/jquery.js"></script> -->

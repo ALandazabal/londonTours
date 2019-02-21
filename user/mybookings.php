@@ -8,7 +8,7 @@
 	$objBookEdit = null;
 	if(isset($_COOKIE['idBook'])){
 	    $idBook = $_COOKIE['idBook'];
-	    $sqledit = "SELECT tut.*, tu.name as user, tt.name as tour FROM t_user_tour as tut JOIN t_user as tu ON tut.fk_user = tu.id JOIN t_tour as tt ON tut.fk_tour = tt.id WHERE tut.id = '$idBook'";
+	    $sqledit = "SELECT tut.*, tu.id as userid, tu.name as user, tt.id as tourid, tt.name as tour FROM t_user_tour as tut JOIN t_user as tu ON tut.fk_user = tu.id JOIN t_tour as tt ON tut.fk_tour = tt.id WHERE tut.id = '$idBook'";
 	    $rcedit = mysqli_query($connection, $sqledit);
 	    $objBookEdit = $rcedit->fetch_array();
 	}
@@ -183,26 +183,30 @@
 			        <button type="button" class="close" data-dismiss="modal">&times;</button>
 			        <h4 class="modal-title">Edit Booking: # <?php echo $objBookEdit['id']; ?></h4>
 			      </div>
-			    <div class="modal-body">
+			    <div class="col-md-6 modal-body">
 			      	<label for="mcNamelgm">Date</label>
-			      	<input type="text" id="date" name="date" value="<?php echo $objBookEdit['date']; ?>" placeholder="Date" class="form-control" >
+			      	<input type="date" id="datet" name="datet" value="<?php echo $objBookEdit['date']; ?>" placeholder="Date" class="form-control" disabled>
 			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">Tickets</label>
-			      	<input type="text" id="tickets" name="tickets" value="<?php echo $objBookEdit['nTickets']; ?>" placeholder="Tickets" class="form-control" >
+			    <div class="col-md-6 modal-body">
+			      	<label for="mcNamelgm">State</label>
+			      	<input type="text" id="statet" name="statet" value="<?php $retVal = ($objBookEdit['state']==1) ? 'active' : 'cancelled'; echo $retVal; ?>" placeholder="State" class="form-control" disabled>
+			      	<input type="hidden" id="state" name="state" value="1" placeholder="State" class="form-control" disabled>
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">User</label>
-			      	<input type="text" id="user" name="user" value="<?php echo $objBookEdit['user']; ?>" placeholder="User" class="form-control" >
+			      	<input type="text" id="userm" name="userm" value="<?php echo $objBookEdit['user']; ?>" placeholder="User" class="form-control" disabled>
+			      	<input type="hidden" id="user" name="user" value="<?php echo $objBookEdit['userid']; ?>" placeholder="User" class="form-control" disabled>
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Tour</label>
-			      	<input type="text" id="tour" name="tour" value="<?php echo $objBookEdit['tour']; ?>" placeholder="Tour" class="form-control" >
+			      	<input type="text" id="tourm" name="tourm" value="<?php echo $objBookEdit['tour']; ?>" placeholder="Tour" class="form-control" disabled>
+			      	<input type="hidden" id="tour" name="tour" value="<?php echo $objBookEdit['tourid']; ?>" placeholder="Tour" class="form-control" disabled>
 			    </div>
 			    <div class="modal-body">
-			      	<label for="mcNamelgm">State</label>
-			      	<input type="text" id="state" name="state" value="<?php $retVal = ($objBookEdit['state']==1) ? 'active' : 'cancelled'; echo $retVal; ?>" placeholder="State" class="form-control" disabled>
+			      	<label for="mcNamelgm">Tickets</label>
+			      	<input type="number" id="tickets" name="tickets" value="<?php echo $objBookEdit['nTickets']; ?>" placeholder="Tickets" class="form-control" min="1" max="20">
 			    </div>
+			    
 			    
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" onclick="bookUpdt(<?php echo $objBookEdit['id']; ?>)">Update!</button>

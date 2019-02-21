@@ -66,11 +66,11 @@ class ClassFunction
         return true;
     }
 
-    function bookUpdt($tickets, $state, $idBookU){
+    function bookUpdt($tickets, $state, $date, $user, $tour, $idBookU){
     	include('connection.php');
     	$connection = connect();
 
-       $sql = "UPDATE t_user_tour SET nTickets = '$tickets', state = '$state' WHERE id = '$idBookU'";
+       $sql = "UPDATE t_user_tour SET nTickets = '$tickets', state = '$state', date = '$date', fk_user = '$user', fk_tour = '$tour' WHERE id = '$idBookU'";
        
        	$rc = mysqli_query($connection, $sql);
 

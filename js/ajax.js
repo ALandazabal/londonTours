@@ -68,8 +68,10 @@ function userUpdt(idUser){
         },
         success: function(msg) {
             if(msg == 'ok'){
+                $('.pfleModal').modal('toggle');
                 $("#data-table-basic").load(" #data-table-basic");
                 $('.userEditModal').modal('toggle');
+                console.log(msg);
             }else{
                 //$('.msgChangePass').html('<div class="alert alert-danger alert-dismissable col-md-10 col-md-offset-1 "><button type="button" class="close" data-dismiss="alert"><strong>&times;</strong></button><strong>¡Error!</strong> Ocurrio un problema al guardar.</div>');
                 console.log('Error Update User: ' +msg);
@@ -144,11 +146,17 @@ function bookEdit(idBook){
 function bookUpdt(idBook){
 
     var form_data = new FormData(); 
+    var date = $('#datet').val();
+    var state = $('#state').val();  
+    var user = $('#user').val();
+    var tour = $('#tour').val(); 
     var tickets = $('#tickets').val();
-    var state = $('#state').val(); 
 
-    form_data.append("tickets", tickets);    
+    form_data.append("date", date);
     form_data.append("state", state);
+    form_data.append("user", user);    
+    form_data.append("tour", tour);
+    form_data.append("tickets", tickets);    
     form_data.append("idBookU", idBook);
 
     $.ajax({
@@ -372,7 +380,7 @@ function tourUpdt(idTour){
     var form_data = new FormData(); 
     var date = $('#dateE').val();
     var name = $('#nameE').val(); 
-    var image = $('#imageE').val();
+    var image = $('#imageE').prop('files')[0];
     var price = $('#priceE').val();
     var itinerary = $('#itineraryE').val();
     var duration = $('#durationE').val(); 

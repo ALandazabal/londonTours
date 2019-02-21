@@ -8,7 +8,7 @@
 	$objBookEdit = null;
 	if(isset($_COOKIE['idBook'])){
 	    $idBook = $_COOKIE['idBook'];
-	    $sqledit = "SELECT tut.*, tu.name as user, tt.name as tour FROM t_user_tour as tut JOIN t_user as tu ON tut.fk_user = tu.id JOIN t_tour as tt ON tut.fk_tour = tt.id WHERE tut.id = '$idBook'";
+	    $sqledit = "SELECT tut.*, tu.id as user, tt.id as tour FROM t_user_tour as tut JOIN t_user as tu ON tut.fk_user = tu.id JOIN t_tour as tt ON tut.fk_tour = tt.id WHERE tut.id = '$idBook'";
 	    $rcedit = mysqli_query($connection, $sqledit);
 	    $objBookEdit = $rcedit->fetch_array();
 	}
@@ -201,25 +201,78 @@
 			        <button type="button" class="close" data-dismiss="modal">&times;</button>
 			        <h4 class="modal-title">Edit Booking: # <?php echo $objBookEdit['id']; ?></h4>
 			      </div>
-			    <div class="modal-body">
+			    <div class="col-md-6 modal-body">
 			      	<label for="mcNamelgm">Date</label>
-			      	<input type="text" id="date" name="date" value="<?php echo $objBookEdit['date']; ?>" placeholder="Date" class="form-control" >
+			      	<input type="date" id="datet" name="datet" value="<?php echo $objBookEdit['date']; ?>" placeholder="Date" class="form-control" >
 			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">Tickets</label>
-			      	<input type="text" id="tickets" name="tickets" value="<?php echo $objBookEdit['nTickets']; ?>" placeholder="Tickets" class="form-control" >
-			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">User</label>
-			      	<input type="text" id="user" name="user" value="<?php echo $objBookEdit['user']; ?>" placeholder="User" class="form-control" >
-			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">Tour</label>
-			      	<input type="text" id="tour" name="tour" value="<?php echo $objBookEdit['tour']; ?>" placeholder="Tour" class="form-control" >
-			    </div>
-			    <div class="modal-body">
+			    <div class="col-md-6 modal-body">
 			      	<label for="mcNamelgm">State</label>
-			      	<input type="text" id="state" name="state" value="<?php echo $objBookEdit['state']; ?>" placeholder="State" class="form-control" >
+			      	<!-- <input type="text" id="state" name="state" value="<?php $retVal = ($objBookEdit['state']==1) ? 'active' : 'cancelled'; echo $retVal; ?>" placeholder="State" class="form-control" > -->
+			      	<select id="state" class="form-control">
+		              <?php  
+		              	if($objBookEdit['state'] == 1){
+                      		echo '<option value="1" selected>Active</option>';
+                      		echo '<option value="0" >Cancelled</option>';	
+                    	}else{
+                    		echo '<option value="1">Active</option>';
+                      		echo '<option value="0"  selected>Cancelled</option>';
+                    	}
+		                    
+		              ?>
+		            </select>
+			    </div>
+			    <div class="col-md-12 modal-body">
+			      	<label for="mcNamelgm">User</label>
+			      	<select id="user" class="form-control">
+		              <?php  
+		              	$connection = connect();            
+		                $sqlcatp = "SELECT * FROM t_user";
+		                $rccatp = mysqli_query($connection, $sqlcatp);
+		                if($rccatp){
+		                  //if(pg_num_rows($rccatp) > 0){
+		                    while($objcatp = mysqli_fetch_array($rccatp)){
+		                    	if($objcatp['id'] == $objBookEdit['user']){
+		                      		echo '<option value="'.$objcatp['id'].'" selected>'.$objcatp['name'].'</option>';	
+		                    	}else{
+		                    		echo '<option value="'.$objcatp['id'].'">'.$objcatp['name'].'</option>';
+		                    	}
+		                    }
+		                  //}
+		                }else{
+		                	echo '<option value="">Error connection</option>';
+		                }
+		                disconnect($connection);
+		              ?>
+		            </select>
+			    </div>
+			    <div class="col-md-12 modal-body">
+			      	<label for="mcNamelgm">Tour</label>
+			      	<!-- <input type="text" id="tour" name="tour" value="<?php echo $objBookEdit['tour']; ?>" placeholder="Tour" class="form-control" > -->
+			      	<select id="tour" class="form-control">
+		              <?php  
+		              	$connection = connect();            
+		                $sqltour = "SELECT * FROM t_tour";
+		                $rcctour = mysqli_query($connection, $sqltour);
+		                if($rcctour){
+		                  //if(pg_num_rows($rcctour) > 0){
+		                    while($objtour = mysqli_fetch_array($rcctour)){
+		                    	if($objtour['id'] == $objBookEdit['tour']){
+		                      		echo '<option value="'.$objtour['id'].'" selected>'.$objtour['name'].'</option>';	
+		                    	}else{
+		                    		echo '<option value="'.$objtour['id'].'">'.$objtour['name'].'</option>';
+		                    	}
+		                    }
+		                  //}
+		                }else{
+		                	echo '<option value="">Error connection</option>';
+		                }
+		                disconnect($connection);
+		              ?>
+		            </select>
+			    </div>
+			    <div class="col-md-12 modal-body">
+			      	<label for="mcNamelgm">Tickets</label>
+			      	<input type="number" id="tickets" name="tickets" value="<?php echo $objBookEdit['nTickets']; ?>" placeholder="Tickets" class="form-control" min="1" max="20">
 			    </div>
 			    
 			      <div class="modal-footer">
@@ -230,6 +283,46 @@
 
 		  </div>
 		</div>
+		<br/>
+		<br/>
+		<footer>
+	      <div class="container">	
+	        <div class="row">
+	          <div class="col-md-4">
+	            <span class="copyright">Copyright &copy; London Tours 2019</span>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline social-buttons">
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-twitter"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-facebook-f"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-linkedin-in"></i>
+	                </a>
+	              </li>
+	            </ul>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline quicklinks">
+	              <li class="list-inline-item">
+	                <a href="#">Privacy Policy</a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">Terms of Use</a>
+	              </li>
+	            </ul>
+	          </div>
+	        </div>
+	      </div>
+	    </footer>
 
 
 		<!-- jQuery -->

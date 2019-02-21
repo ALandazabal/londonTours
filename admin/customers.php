@@ -127,16 +127,16 @@
 					        				$connection = connect();
 
 					        				while ( $column = mysqli_fetch_array($result)) {
-					        					/*$query = "SELECT * FROM t_user_tour";
+					        					$query = "SELECT * FROM t_user_type WHERE id = ".$column['fk_user_type'];
 					        					$result2 = mysqli_query($connection,$query) or die("error on database");
-					        					$tour = $result2->fetch_array();*/
+					        					$type = $result2->fetch_array();
 					        					//$retVal = ($column['state']==1) ? "active" : "cancelled";
 					        					echo "<tr>";
 					        					echo "<td>".$column['id']."</td>";
 					        					echo "<td>".$column['email']."</td>";
 					        					echo "<td>".$column['name']."</td>";
-					        					echo "<td>".$column['fk_user_type']."</td>";
-					        					if ($column['id'] != $_SESSION['currentuser']) {
+					        					echo "<td>".$type['desc']."</td>";
+					        					if ($column['fk_user_type'] != 1) {
 						        					$on = 'return confirm("Are you sure?") && userDel('.$column['id'].')';
 									                echo '<td><a class="btn" title="Edit" data-toggle="modal" data-target=".userEditModal" onclick="userEdit('.$column['id'].')"><i class="glyphicon glyphicon-edit"></i></a></td>';
 									                echo "<td><a class='btn' title='Delete' onclick= '".$on."'><i class='glyphicon glyphicon-trash'></i></a></td>";
@@ -172,6 +172,46 @@
         </div>
     </div>
     <!-- Data Table area End-->
+    <br/>
+		<br/>
+		<footer>
+	      <div class="container">	
+	        <div class="row">
+	          <div class="col-md-4">
+	            <span class="copyright">Copyright &copy; London Tours 2019</span>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline social-buttons">
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-twitter"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-facebook-f"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-linkedin-in"></i>
+	                </a>
+	              </li>
+	            </ul>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline quicklinks">
+	              <li class="list-inline-item">
+	                <a href="#">Privacy Policy</a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">Terms of Use</a>
+	              </li>
+	            </ul>
+	          </div>
+	        </div>
+	      </div>
+	    </footer>
 
     <!--modal edit user-->
 	<div id="myModal" class="modal fade userEditModal" role="dialog">
@@ -189,28 +229,28 @@
 			        <h4 class="modal-title">Edit User: # <?php echo $objUserEdit['id']; ?></h4>
 			      </div>
 			    <div class="modal-body">
+			      	<label for="mcNamelgm">Name</label>
+			      	<input type="text" id="name" name="name" value="<?php echo $objUserEdit['name']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
 			      	<label for="mcNamelgm">E-mail</label>
 			      	<input type="text" id="email" name="email" value="<?php echo $objUserEdit['email']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Phone</label>
+			      	<input type="phone" id="phone" name="phone" value="<?php echo $objUserEdit['phone']; ?>" placeholder="Tickets" class="form-control" >
+			    </div>
+			    <div class="modal-body">
+			      	<label for="mcNamelgm">Postcode</label>
+			      	<input type="text" id="postcode" name="postcode" value="<?php echo $objUserEdit['postcode']; ?>" placeholder="Tickets" class="form-control" >
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Address</label>
 			      	<input type="text" id="address" name="address" value="<?php echo $objUserEdit['address']; ?>" placeholder="Tickets" class="form-control" >
 			    </div>
 			    <div class="modal-body">
-			      	<label for="mcNamelgm">Phone</label>
-			      	<input type="text" id="phone" name="phone" value="<?php echo $objUserEdit['phone']; ?>" placeholder="Tickets" class="form-control" >
-			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">Name</label>
-			      	<input type="text" id="name" name="name" value="<?php echo $objUserEdit['name']; ?>" placeholder="Tickets" class="form-control" >
-			    </div>
-			    <div class="modal-body">
 			      	<label for="mcNamelgm">City</label>
 			      	<input type="text" id="city" name="city" value="<?php echo $objUserEdit['city']; ?>" placeholder="Tickets" class="form-control" >
-			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">Postcode</label>
-			      	<input type="text" id="postcode" name="postcode" value="<?php echo $objUserEdit['postcode']; ?>" placeholder="Tickets" class="form-control" >
 			    </div>
 			      <div class="modal-body">
 			      	<label for="mcNamelgm">Password</label>

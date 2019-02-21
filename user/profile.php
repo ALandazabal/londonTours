@@ -98,39 +98,39 @@
         		
         	</div>	
         </div>
-		<!-- Data Table area Start-->
+
     <div class="data-table-area">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h2>Edit Profile: # <?php echo $objUserEdit['id']; ?></h2>
 
-                    <form id="userEditModal" action="save.php" method="post" accept-charset="utf-8">
-					    <div class="modal-body">
-					      	<label for="mcNamelgm">E-mail</label>
-					      	<input type="text" id="email" name="email" value="<?php echo $objUserEdit['email']; ?>" placeholder="Tickets" class="form-control" >
-					    </div>
-					    <div class="modal-body">
-					      	<label for="mcNamelgm">Address</label>
-					      	<input type="text" id="address" name="address" value="<?php echo $objUserEdit['address']; ?>" placeholder="Tickets" class="form-control" >
-					    </div>
-					    <div class="modal-body">
-					      	<label for="mcNamelgm">Phone</label>
-					      	<input type="text" id="phone" name="phone" value="<?php echo $objUserEdit['phone']; ?>" placeholder="Tickets" class="form-control" >
-					    </div>
-					    <div class="modal-body">
+                    <form id="#" action="save.php" method="post" accept-charset="utf-8">
+					    <div class=" col-md-6 modal-body">
 					      	<label for="mcNamelgm">Name</label>
 					      	<input type="text" id="name" name="name" value="<?php echo $objUserEdit['name']; ?>" placeholder="Tickets" class="form-control" >
 					    </div>
-					    <div class="modal-body">
-					      	<label for="mcNamelgm">City</label>
-					      	<input type="text" id="city" name="city" value="<?php echo $objUserEdit['city']; ?>" placeholder="Tickets" class="form-control" >
+					    <div class="col-md-6 modal-body">
+					      	<label for="mcNamelgm">E-mail</label>
+					      	<input type="email" id="email" name="email" value="<?php echo $objUserEdit['email']; ?>" placeholder="Tickets" class="form-control" >
 					    </div>
-					    <div class="modal-body">
+					    <div class="col-md-6 modal-body">
+					      	<label for="mcNamelgm">Phone</label>
+					      	<input type="phone" id="phone" name="phone" value="<?php echo $objUserEdit['phone']; ?>" placeholder="Tickets" class="form-control" >
+					    </div>
+					    <div class="col-md-6 modal-body">
 					      	<label for="mcNamelgm">Postcode</label>
 					      	<input type="text" id="postcode" name="postcode" value="<?php echo $objUserEdit['postcode']; ?>" placeholder="Tickets" class="form-control" >
 					    </div>
-					      <div class="modal-body">
+					    <div class="col-md-12 modal-body">
+					      	<label for="mcNamelgm">Address</label>
+					      	<input type="text" id="address" name="address" value="<?php echo $objUserEdit['address']; ?>" placeholder="Tickets" class="form-control" >
+					    </div>
+					    <div class="col-md-6 modal-body">
+					      	<label for="mcNamelgm">City</label>
+					      	<input type="text" id="city" name="city" value="<?php echo $objUserEdit['city']; ?>" placeholder="Tickets" class="form-control" >
+					    </div>
+					      <div class="col-md-6 modal-body">
 					      	<label for="mcNamelgm">Password</label>
 					      	<input type="password" id="password" name="password" placeholder="********" class="form-control" >
 					      	<input type="hidden" id="passwordC" name="passwordC" value="<?php echo $objUserEdit['password']; ?>" placeholder="Tickets" class="form-control" >
@@ -146,41 +146,22 @@
     </div>
     <!-- Data Table area End-->
 
-    <!--modal edit booking-->
-	<div id="myModal" class="modal fade bookEditModal" role="dialog">
+    <div id="mypfle" class="modal fade pfleModal" role="dialog">
 		  <div class="modal-dialog">
 
-		    <!-- Modal content-->
 		    <div class="modal-content">
 		      
-		      <form id="bookEditModal" action="save.php" method="post" accept-charset="utf-8">
+		      <form id="pfleModal" action="save.php" method="post" accept-charset="utf-8">
 		      	<div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal">&times;</button>
-			        <h4 class="modal-title">Edit Booking: # <?php echo $objBookEdit['id']; ?></h4>
+			        <h4 class="modal-title">Confirmation: </h4>
 			      </div>
 			    <div class="modal-body">
-			      	<label for="mcNamelgm">Date</label>
-			      	<input type="text" id="date" name="date" value="<?php echo $objBookEdit['date']; ?>" placeholder="Date" class="form-control" >
+			      	<label for="mcNamelgm">Your profile was updated successfully!</label>
 			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">Tickets</label>
-			      	<input type="text" id="tickets" name="tickets" value="<?php echo $objBookEdit['nTickets']; ?>" placeholder="Tickets" class="form-control" >
-			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">User</label>
-			      	<input type="text" id="user" name="user" value="<?php echo $objBookEdit['user']; ?>" placeholder="User" class="form-control" >
-			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">Tour</label>
-			      	<input type="text" id="tour" name="tour" value="<?php echo $objBookEdit['tour']; ?>" placeholder="Tour" class="form-control" >
-			    </div>
-			    <div class="modal-body">
-			      	<label for="mcNamelgm">State</label>
-			      	<input type="text" id="state" name="state" value="<?php $retVal = ($objBookEdit['state']==1) ? 'active' : 'cancelled'; echo $retVal; ?>" placeholder="State" class="form-control" disabled>
-			    </div>
-			    
+			  
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" onclick="bookUpdt(<?php echo $objBookEdit['id']; ?>)">Update!</button>
+			        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".pfleModal">Ok!</button>
 			      </div>
 		      </form>
 		    </div>

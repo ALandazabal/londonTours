@@ -89,6 +89,9 @@
         </div>
         <!-- Main Menu area End-->
     <div class="container">
+        <h1>Welcome <?php echo $user['name'];?></h1>
+        <br/>
+        <br/>
         <div class="row">
              <?php 
                 $connection = connect();
@@ -114,9 +117,46 @@
            ?>
         </div>
         
-    	<h1>Welcome <?php echo $user['name'];?></h1>
        
     </div>
+    <footer>
+          <div class="container">   
+            <div class="row">
+              <div class="col-md-4">
+                <span class="copyright">Copyright &copy; London Tours 2019</span>
+              </div>
+              <div class="col-md-4">
+                <ul class="list-inline social-buttons">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <i class="fab fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <i class="fab fa-facebook-f"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <i class="fab fa-linkedin-in"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <ul class="list-inline quicklinks">
+                  <li class="list-inline-item">
+                    <a href="#">Privacy Policy</a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="#">Terms of Use</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
 	
 
 		<!-- jQuery -->

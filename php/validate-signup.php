@@ -82,7 +82,7 @@
 				$queryInsert = "INSERT INTO t_user (id, email, address, phone, name, city, postcode, fk_user_type, password) VALUES ('".$id."','".$email."','".$address."','".$phone."','".$name."','".$city."','".$postcode."','".$user_type."','".$passwordHash."');";
 				$insert_result =  mysqli_query( $connection, $queryInsert );
 				if ($insert_result) {
-					echo "registro";
+					//echo "registro";
 					$_SESSION['currentuser'] = $id;
 				header('Location:../user/user.php');
 					# code...
@@ -90,7 +90,7 @@
 					echo "error al insertar".mysqli_error($connection);
 					var_dump($insert_result);
 				}
-				echo $name.$email.$pass1.$phone.$city.$address;
+				//echo $name.$email.$pass1.$phone.$city.$address;
 				
 			}else{
 				echo "Email is register already";

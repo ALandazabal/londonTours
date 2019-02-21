@@ -49,7 +49,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.php"><img src="../img/LogoBrand.png"></a>
+					<a class="navbar-brand" href="../index.php"><img src="../img/LogoBrand.png"></a>
 				</div>
 		
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -154,8 +154,48 @@
         </div>
     </div>
     <!-- Data Table area End-->
+		<br/>
+		<br/>
+		<footer>
+	      <div class="container">	
+	        <div class="row">
+	          <div class="col-md-4">
+	            <span class="copyright">Copyright &copy; London Tours 2019</span>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline social-buttons">
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-twitter"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-facebook-f"></i>
+	                </a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">
+	                  <i class="fab fa-linkedin-in"></i>
+	                </a>
+	              </li>
+	            </ul>
+	          </div>
+	          <div class="col-md-4">
+	            <ul class="list-inline quicklinks">
+	              <li class="list-inline-item">
+	                <a href="#">Privacy Policy</a>
+	              </li>
+	              <li class="list-inline-item">
+	                <a href="#">Terms of Use</a>
+	              </li>
+	            </ul>
+	          </div>
+	        </div>
+	      </div>
+	    </footer>
 
-    <!--modal edit booking-->
+	    <!--modal edit booking-->
 	<div id="myModal" class="modal fade tourEditModal" role="dialog">
 		  <div class="modal-dialog">
 
@@ -168,7 +208,7 @@
 			      </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Date</label>
-			      	<input type="text" id="dateE" name="dateE" value="<?php echo $objTourEdit['date']; ?>" placeholder="Date" class="form-control" >
+			      	<input type="date" id="dateE" name="dateE" value="<?php echo $objTourEdit['date']; ?>" placeholder="Date" class="form-control" >
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">name</label>
@@ -176,7 +216,7 @@
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Image</label>
-			      	<input type="text" id="imageE" name="imageE" value="<?php echo $objTourEdit['image']; ?>" placeholder="image" class="form-control" >
+			      	<input type="file" id="imageE" name="imageE" value="<?php echo $objTourEdit['image']; ?>" placeholder="image" class="form-control" accept="image/jpeg,image/jpg,image/png">
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Price</label>
@@ -184,15 +224,15 @@
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Itinerary</label>
-			      	<input type="text" id="itineraryE" name="itineraryE" value="<?php echo $objTourEdit['itinerary']; ?>" placeholder="itinerary" class="form-control" >
+			      	<textarea id="itineraryE" name="itineraryE" style="resize: none;" placeholder="itinerary" class="form-control" ><?php echo $objTourEdit['itinerary']; ?></textarea>
 			    </div>
 			    <div class="modal-body">
-			      	<label for="mcNamelgm">Duration</label>
-			      	<input type="text" id="durationE" name="durationE" value="<?php echo $objTourEdit['duration']; ?>" placeholder="duration" class="form-control" >
+			      	<label for="mcNamelgm">Duration (Hrs)</label>
+			      	<input type="number" id="durationE" name="durationE" value="<?php echo $objTourEdit['duration']; ?>" placeholder="duration" class="form-control" min="1" max="24">
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Description</label>
-			      	<input type="text" id="descriptionE" name="descriptionE" value="<?php echo $objTourEdit['description']; ?>" placeholder="description" class="form-control" >
+			      	<textarea id="descriptionE" name="descriptionE" style="resize: none;" placeholder="description" class="form-control" ><?php echo $objTourEdit['description']; ?></textarea>
 			    </div>
 			    
 			      <div class="modal-footer">
@@ -218,7 +258,7 @@
 			      </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Date</label>
-			      	<input type="text" id="date" name="date" value="" placeholder="Date" class="form-control" >
+			      	<input type="date" id="date" name="date" value="" placeholder="Date" class="form-control" >
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">name</label>
@@ -226,7 +266,7 @@
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Image</label>
-			      	<input type="text" id="image" name="image" value="" placeholder="image" class="form-control" >
+			      	<input type="file" id="image" name="image" value="" placeholder="image" class="form-control" accept="image/jpeg,image/jpg,image/png">
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Price</label>
@@ -234,7 +274,7 @@
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Itinerary</label>
-			      	<input type="text" id="itinerary" name="itinerary" value="" placeholder="itinerary" class="form-control" >
+			      	<textarea id="itinerary" name="itinerary" style="resize: none;" placeholder="Itinerary" class="form-control" ></textarea>
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Duration</label>
@@ -242,7 +282,7 @@
 			    </div>
 			    <div class="modal-body">
 			      	<label for="mcNamelgm">Description</label>
-			      	<input type="text" id="description" name="description" value="" placeholder="description" class="form-control" >
+			      	<textarea  id="description" name="description" style="resize: none;" placeholder="description" class="form-control" ></textarea>
 			    </div>
 			    
 			      <div class="modal-footer">

@@ -68,11 +68,14 @@ if($_POST){
     
 	    $class = new classFunction();
 
-	    $tickets = $_POST["tickets"];
+	    $date = $_POST["date"];
 	    $state = $_POST["state"];    
+	    $user = $_POST["user"];
+	    $tour = $_POST["tour"];    
+	    $tickets = $_POST["tickets"];
 	    $idBookU = $_POST["idBookU"];
 
-	    $bool = $class->bookUpdt($tickets, $state, $idBookU);
+	    $bool = $class->bookUpdt($tickets, $state, $date, $user, $tour, $idBookU);
 	    
 	    if($bool){
 	      echo 'ok';
@@ -171,20 +174,43 @@ if($_POST){
 	    }
 	}
 
-	if(isset($_POST["idTourU"]) && isset($_POST["name"]) && isset($_POST["image"]) && isset($_POST["price"])){
+	if(isset($_POST["idTourU"]) && isset($_POST["name"]) && isset($_FILES["image"]) && isset($_POST["price"])){
     
 	    $class = new classFunction();
 
 	    $date = $_POST["date"];
 	    $name = $_POST["name"];    
-	    $image = $_POST["image"];
 	    $price = $_POST["price"];    
 	    $itinerary = $_POST["itinerary"];
 	    $duration = $_POST["duration"];
 	    $description = $_POST["description"];
 	    $idTourU = $_POST["idTourU"];
+	    		//$image = $_POST["image"];
 
-	    $bool = $class->tourUpdt($date, $name, $image, $price, $itinerary, $duration, $description, $idTourU);
+	    $img = "";
+	    if($_FILES){
+	       if($_FILES['image']['name'] != null && $_FILES['image']['size'] > 0){ 
+	       		$imgName = $_FILES['image']['name'];
+	            $divide = explode(".", $imgName);
+	            $extension = end($divide);  
+	            $allowed_type = array("jpg", "jpeg", "png", "gif");  
+	            if(in_array($extension, $allowed_type))  
+	            {  
+	                 $img = $_FILES['image']['name'];
+	                 $path = "img/".$img;  
+	                 if(!file_exists("../".$path)){
+	                    move_uploaded_file($_FILES['image']['tmp_name'], "../".$path);
+	                 }
+	                 else{
+	                    $img = rand().$_FILES['image']['name'];
+	                    $path = "img/".$img; 
+	                    move_uploaded_file($_FILES['image']['tmp_name'], "../".$path);
+	                 }
+	            } 
+	    	}
+	    }
+
+	    $bool = $class->tourUpdt($date, $name, $img, $price, $itinerary, $duration, $description, $idTourU);
 	    
 	    if($bool){
 	      echo 'ok';
